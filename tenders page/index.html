@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tender Form</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+  <script>
+     const statesAndDistricts = {
+       "Andhra Pradesh" : ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Krishna", "Kurnool", "Prakasam", "Srikakulam", "Visakhapatnam", "West Godavari", "YSR Kadapa"] ,
+      "Arunachal Pradesh" : ["Tawang", "West Kameng", "East Kameng", "Papum Pare", "Lower Subansiri", "Upper Subansiri", "West Siang", "East Siang", "Siang", "Lower Dibang Valley"] ,
+       "Assam" : ["Barpeta", "Bongaigaon", "Cachar", "Darrang", "Dhemaji", "Dibrugarh", "Goalpara", "Golaghat", "Hailakandi", "Jorhat"] ,
+ "Bihar" : ["Araria", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Buxar", "Darbhanga", "Gaya", "Gopalganj", "Jamui"]
+}
+
+   const natureOfWorkOptions = [
+      "AAC Block Work", "ACP Cladding", "Acoustic Work", "Anti Termite treatment", "Apply Flooring", "Awning",
+      "Boundary Wall", "Bridge", "Brick Work", "BT Road", "Buildings", "Carpentry", "Coffer Dams",
+     
+    ];
+
+
+    // Populate state dropdown
+    $(document).ready(() => {
+      const $state = $("#state");
+      const $district = $("#district");
+      const $natureOfWork = $("#nature_of_work");
+
+      // Populate states
+      $state.append('<option value="" disabled selected>Select State</option>');
+      Object.keys(statesAndDistricts).forEach(state => {
+        $state.append(`<option value="${state}">${state}</option>`);
+      });
+
+      // Initialize Select2 for states and districts
+      $state.select2();
+      $district.select2();
+      $natureOfWork.select2({
+        data: natureOfWorkOptions.map(work => ({ id: work, text: work })),
+        placeholder: "Select Nature of Work",
+        aria: true,
+      });
+
+      // Update districts on state selection
+      $state.on("change", function () {
+        const selectedState = $(this).val();
+        const districts = statesAndDistricts[selectedState] || [];
+        $district.empty().append('<option value="" disabled selected>Select District</option>');
+        districts.forEach(district => {
+          $district.append(`<option value="${district}">${district}</option>`);
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="bg">
+    <div class="card1">
+      <form id="tender-form" enctype="multipart/form-data">
+    <h1 class="heading">Tender Upload Form</h1>
+    <div class="card2">
+      <label>Name of Work: <input type="text" name="name_of_work" required></label><br>
+      <label>Area: <input type="text" name="area" required></label><br>
+      <label>Plinth Area: <input type="text" name="plinth_area" required></label><br>
+    </div>
+ <div class="card3">
+
+
+    <label class="lab" for="state">State:</label>
+    <select id="state" name="state" required></select>
+
+    <label class="lab" for="district">District:</label>
+    <select id="district" name="district" required></select>
+
+    <label>Place: <input type="text" name="place" required></label><br>
+  </div>
+<div class="card2s">
+
+<div  class="labs">
+    <label for="nature_of_work">Nature of Work:
+    <select id="nature_of_work" name="nature_of_work" required>
+      <option value="" disabled selected>Select Nature of Work</option>
+      <!-- Nature of work options will be dynamically populated -->
+    </select>
+  </label>
+</div>
+    <label>Tender Published On: <input type="date" name="tender_published_on" required></label><br>
+    <label>Tender Response By: <input type="date" name="tender_response_by" required></label><br>
+    <label>BoQ File: <input type="file" name="boq_file"></label><br>
+  </div>
+  <div class="butt">
+    <button class="bt" type="submit">Submit</button>
+  </div>
+   
+  </form>
+    </div>
+  </div>
+  <h2>Submitted Tenders</h2>
+
+  <input
+  type="text"
+  id="search-bar"
+  placeholder="Search by Tender ID, Name of Work, State, District, Place, or Nature of Work"
+/>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Tender ID</th>
+        <th>Work Description</th>
+        <th>Location</th>
+        <th>Nature of Work</th>
+        <th>Tender Published On</th>
+        <th>Tender Response By</th>
+        <th>BoQ</th>
+        <th>Apply</th>
+      </tr>
+    </thead>
+    <tbody id="tenders-table"></tbody>
+  </table>
+
+  <div class="page" id="pagination">
+    <button onclick="changePage(-1)"><</button>
+    <div id="page-info">Page 1 of 1</div>
+    <button onclick="changePage(1)">></button>
+  </div>
+
+
+
+  <script>
+
+
+
+    let currentPage = 1;
+    const itemsPerPage = 5; // Number of tenders to show per page
+    let tenders = [];
+
+    document.getElementById('tender-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+
+      const response = await fetch('http://localhost:3000/api/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('Tender submitted successfully!');
+        loadTenders();
+      } else {
+        alert('Failed to submit tender.');
+      }
+    });
+
+    async function loadTenders() {
+      const response = await fetch('http://localhost:3000/api/tenders');
+      tenders = await response.json();
+      displayTenders();
+    }
+
+    document.getElementById('search-bar').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  filterTenders(query);
+});
+
+function filterTenders(query) {
+  const filteredTenders = tenders.filter((tender) => {
+    return (
+      tender.id.toLowerCase().includes(query) ||
+      tender.name_of_work.toLowerCase().includes(query) ||
+      tender.state.toLowerCase().includes(query) ||
+      tender.district.toLowerCase().includes(query) ||
+      tender.place.toLowerCase().includes(query) ||
+      tender.nature_of_work.toLowerCase().includes(query)
+    );
+  });
+  displayFilteredTenders(filteredTenders);
+}
+
+function displayFilteredTenders(filteredTenders) {
+  const tableBody = document.getElementById('tenders-table');
+  tableBody.innerHTML = '';
+
+  filteredTenders.forEach((tender) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${tender.id}</td>
+      <td><strong>Name of Work:</strong> ${tender.name_of_work}<br>
+          <strong>Area:</strong> ${tender.area}<br>
+          <strong>Plinth Area:</strong> ${tender.plinth_area}</td>
+      <td><strong>State:</strong> ${tender.state}<br>
+          <strong>District:</strong> ${tender.district}<br>
+          <strong>Place:</strong> ${tender.place}</td>
+      <td>${tender.nature_of_work}</td>
+      <td>${tender.tender_published_on}</td>
+      <td>${tender.tender_response_by}</td>
+      <td><a href="/uploads/${tender.boq_file}" download>Download</a></td>
+      <td><button onclick="apply('${tender.id}')">Apply</button></td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
+async function filterTendersBackend(query) {
+  const response = await fetch(`http://localhost:3000/api/search?query=${query}`);
+  const filteredTenders = await response.json();
+  displayFilteredTenders(filteredTenders);
+}
+
+document.getElementById('search-bar').addEventListener('input', (e) => {
+  const query = e.target.value.trim();
+  if (query) {
+    filterTendersBackend(query);
+  } else {
+    loadTenders(); // Load all tenders if search query is empty
+  }
+});
+
+    function displayTenders() {
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const tendersToShow = tenders.slice(startIndex, endIndex);
+
+      const tableBody = document.getElementById('tenders-table');
+      tableBody.innerHTML = '';
+
+      tendersToShow.forEach(tender => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${tender.id}</td>
+          <td><strong>Name of Work:</strong> ${tender.name_of_work}<br>
+              <strong>Area:</strong> ${tender.area}<br>
+              <strong>Plinth Area:</strong> ${tender.plinth_area}</td>
+          <td><strong>State:</strong> ${tender.state}<br>
+              <strong>District:</strong> ${tender.district}<br>
+              <strong>Place:</strong> ${tender.place}</td>
+          <td>${tender.nature_of_work}</td>
+          <td>${tender.tender_published_on}</td>
+          <td>${tender.tender_response_by}</td>
+          <td><a href="/uploads/${tender.boq_file}" download>Download</a></td>
+          <td><button onclick="apply('${tender.id}')">Apply</button></td>
+        `;
+        tableBody.appendChild(row);
+      });
+      const totalPages = Math.ceil(tenders.length / itemsPerPage);
+      document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+
+    }
+   
+    function changePage(direction) {
+      const totalPages = Math.ceil(tenders.length / itemsPerPage);
+      if (currentPage + direction > 0 && currentPage + direction <= totalPages) {
+        currentPage += direction;
+        displayTenders();
+      }
+    }
+
+    
+    loadTenders();
+  </script>
+</body>
+</html>
+
+

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Registration</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container bg">
+        <h2>Client Registration Form</h2>
+
+        <!-- Search Bar -->
+        
+        <!-- Client Registration Form -->
+        <form id="client-registration-form" enctype="multipart/form-data">
+            <div class="ram">
+
+           
+            <div class="card2">
+                <div class="form-group">
+                    <label for="client_name">Client Name:</label>
+                    <input type="text" id="client_name" name="client_name" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="organisation_name">Organisation Name:</label>
+                    <input type="text" id="organisation_name" name="organisation_name" required />
+                </div>
+                <div class="form-group">
+                    <label for="experience">Years of Experience:</label>
+                    <input type="number" id="experience" name="experience" required />
+                </div>
+        </div>
+            <div class="card2">
+                <div class="form-group">
+                    <label for="state">State:</label>
+                    <input type="text" id="state" name="state" required />
+                </div>
+      
+        
+                <div class="form-group">
+                    <label for="district">District:</label>
+                    <input type="text" id="district" name="district" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="place">Place:</label>
+                    <input type="text" id="place" name="place" required />
+                </div>
+
+            
+        </div>
+        <div class="card2">
+
+       
+            <div class="form-group">
+                <label for="boq_file">Upload BOQ File:</label>
+                <input type="file" id="boq_file" name="boq_file" download required />
+            </div>
+           
+        </div>
+    </div>
+    <div class="vg">
+        <div class="c">
+            <div class="form-group ve">
+                <input type="checkbox" id="consent" name="consent" required />
+                <label for="consent">I agree to the terms and conditions</label>
+            </div>
+
+            <button type="submit">Submit</button>
+        </div>
+    </div>
+        </form>
+    </div>
+        <!-- Client Data Table -->
+        <h3>Registered Clients</h3>
+        <div>
+            <label for="search">Search Clients: </label>
+            <input type="text" id="search" placeholder="Search by client or organisation" />
+        </div>
+
+        <table id="clients-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Client Name</th>
+                    <th>Organisation Name</th>
+                    <th>Location</th>
+                    <th>Experience (Years)</th>
+                    <th>BOQ File</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Pagination Controls -->
+        <div id="pagination-controls">
+            <button id="prev-page">Previous</button>
+            <span id="page-info"></span>
+            <button id="next-page">Next</button>
+        </div>
+    
+
+    <script>
+        const form = document.getElementById('client-registration-form');
+        const searchInput = document.getElementById('search');
+        const clientsTable = document.getElementById('clients-table').getElementsByTagName('tbody')[0];
+        const pageInfo = document.getElementById('page-info');
+        const prevPageBtn = document.getElementById('prev-page');
+        const nextPageBtn = document.getElementById('next-page');
+
+        let currentPage = 1;
+        let totalPages = 1;
+
+        // Submit client registration form
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(form);
+
+            fetch('/submit-client', {
+                method: 'POST',
+                body: formData
+            }).then(response => {
+                if (response.ok) {
+                    form.reset();
+                    loadClients(); // Reload client data after submission
+                } else {
+                    alert('Error submitting the form');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Error submitting the form');
+            });
+        });
+
+        // Load client data with search and pagination
+        function loadClients() {
+            const searchQuery = searchInput.value.trim();
+            const url = `/data-clients?search=${encodeURIComponent(searchQuery)}&page=${currentPage}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    totalPages = data.totalPages;
+                    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+                    displayClients(data.clients);
+                })
+                .catch(error => {
+                    console.error('Error loading client data:', error);
+                });
+        }
+
+        // Display client data in the table
+        function displayClients(clients) {
+            clientsTable.innerHTML = ''; // Clear previous table rows
+
+            clients.forEach(client => {
+                const row = clientsTable.insertRow();
+
+                row.innerHTML = `
+                    <td>${client.id}</td>
+                    <td>${client.client_name}</td>
+                    <td>${client.organisation_name}</td>
+                    <td>
+                        <strong>State:</strong> ${client.state}<br>
+                        <strong>District:</strong> ${client.district}<br>
+                        <strong>Place:</strong> ${client.place}
+                    </td>
+                    <td>${client.experience}</td>
+                    <td><a href="uploads/${client.boq_file}" download>Download</a></td>
+                `;
+            });
+        }
+
+        // Handle pagination
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                loadClients();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadClients();
+            }
+        });
+
+        // Search clients as the user types
+        searchInput.addEventListener('input', () => {
+            currentPage = 1; // Reset to first page on search
+            loadClients();
+        });
+
+        // Initial load
+        loadClients();
+    </script>
+</body>
+</html

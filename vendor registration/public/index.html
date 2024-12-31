@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Registration</title>
+
+    <!-- Add the Select2 CSS file -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Add jQuery (required for Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Add the Select2 JS file -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .pagination { display: flex; justify-content: flex-end; margin-top: 10px; }
+    </style>
+    <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="bg">
+        <h1>Vendor Registration Form</h1>
+        <form action="/submit-vendor" method="POST" enctype="multipart/form-data">
+            <div class="ca">
+                <div class="card2">
+                    <label for="vendor_name">Name of Vendor:</label>
+                    <input type="text" id="vendor_name" name="vendor_name" required><br><br>
+
+                    <label for="firm_name">Name of Firm:</label>
+                    <input type="text" id="firm_name" name="firm_name" required><br><br>
+
+                    <label for="gst_number">GST Number:</label>
+                    <input type="text" id="gst_number" name="gst_number" required><br><br>
+                </div>
+                <div class="card3">
+                    <label for="state">State:</label>
+                    <select id="state" name="state" required>
+                        <option value="">Select State</option>
+                        <option value="State1">State1</option>
+                        <option value="State2">State2</option>
+                    </select><br><br>
+
+                    <label for="district">District:</label>
+                    <select id="district" name="district" required>
+                        <option value="">Select District</option>
+                        <option value="District1">District1</option>
+                        <option value="District2">District2</option>
+                    </select><br><br>
+
+                    <label for="materials">Materials for Supply:</label>
+                    <select id="materials" name="materials[]" multiple="multiple" required>
+                        <option value="cement">Cement</option>
+                        <option value="steel">Steel</option>
+                        <option value="sand">Sand</option>
+                        <option value="aggregate">Aggregate</option>
+                        <option value="bricks">Bricks</option>
+                        <option value="tiles">Tiles</option>
+                        <option value="wood">Wood</option>
+                        <option value="plastic_pipes">Plastic Pipes</option>
+                        <option value="plumbing_ware">Plumbing Ware</option>
+                        <option value="centenary_ware">Centenary Ware</option>
+                        <option value="gi_pipes">GI Pipes</option>
+                        <option value="upvc_windows">UPVC Windows</option>
+                    </select><br><br>
+                </div>
+                <div class="card3">
+                    <label for="place">Place:</label>
+                    <input type="text" id="place" name="place" required><br><br>
+
+                    <label for="experience">Years of Experience:</label>
+                    <input type="number" id="experience" name="experience" required><br><br>
+
+                    <label for="gst_certificate">Upload GST Certificate (PDF):</label>
+                    <input type="file" id="gst_certificate" name="gst_certificate" accept="application/pdf" required><br><br>
+                </div>
+            </div>
+          
+
+            <div class="car">
+                <label>
+                    <input type="checkbox" name="consent" required>
+                    I hereby convey my consent to register my firm with SSV Constructions to participate in private tendors.
+                </label><br><br>
+            </div>
+
+            <div class="butt">
+                <button class="bt" type="submit">Submit</button>
+            </div>
+        </form>
+    </div> 
+        <h2>Registered Vendors</h2>
+
+        <!-- Search Bar -->
+         <div class="search">
+
+            <input type="text" id="search" placeholder="Search vendors..."  />
+        
+    </div>
+        <table>
+           
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vendor Name</th>
+                    <th>Firm Name</th>
+                    <th>GST Number</th>
+                    <th>Location</th>
+                    <th>Experience</th>
+                    <th>Materials for Supply</th>
+                    <th>GST Certificate</th>
+                </tr>
+            </thead>
+            <tbody id="vendors-table"></tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div id="pagination-controls" style="margin-top: 20px; text-align: right;">
+            <button id="prev-page" disabled>Previous</button>
+            <span id="page-info"></span>
+            <button id="next-page" disabled>Next</button>
+        </div>
+        
+
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for the materials dropdown with multiple select and allow new material input
+            $('#materials').select2({
+                placeholder: "Select Materials",
+                tags: true,  // Allow new entries to be added
+                tokenSeparators: [',', ' '], // Allow separate tags by commas or space
+                createTag: function (params) {
+                    // Add new material dynamically if it does not exist
+                    const newMaterial = params.term;
+                    return {
+                        id: newMaterial,
+                        text: newMaterial,
+                        new: true
+                    };
+                }
+            });
+
+            // Initialize Select2 for the state dropdown
+            $('#state').select2({
+                placeholder: "Select State",
+                allowClear: true
+            });
+
+            // Initialize Select2 for the district dropdown
+            $('#district').select2({
+                placeholder: "Select District",
+                allowClear: true
+            });
+
+            // Fetch and display vendor data
+          
+
+            // Handle search input
+            $('#search').on('input', function() {
+                const search = $(this).val();
+                fetchVendors(1, search);
+            });
+
+            // Initial fetch with no search query
+            fetchVendors(1);
+
+        });
+
+
+        let currentPage = 1;
+let totalPages = 100;
+
+async function fetchVendors(page = 1, search = '') {
+    try {
+        const response = await fetch(`/data-vendors?page=${page}&search=${search}`);
+        const { vendors, totalPages: fetchedTotalPages } = await response.json();
+
+        totalPages = fetchedTotalPages; // Update total pages
+        currentPage = page; // Update current page
+
+        // Populate the table with vendor data
+        const tableBody = document.getElementById('vendors-table');
+        tableBody.innerHTML = vendors.map(vendor => `
+            <tr>
+                <td>${vendor.id}</td>
+                <td>${vendor.vendor_name}</td>
+                <td>${vendor.firm_name}</td>
+                <td>${vendor.gst_number}</td>
+                <td>
+                    <strong>State:</strong> ${vendor.state}<br>
+                    <strong>District:</strong> ${vendor.district}<br>
+                    <strong>Place:</strong> ${vendor.place}
+                </td>
+                <td>${vendor.experience}</td>
+                <td>${vendor.materials.join(', ')}</td>
+                 <td>
+                ${vendor.gst_certificate ? `
+                    <a href="/uploads/${vendor.gst_certificate}" download>Download GST Certificate</a>
+                ` : 'No file uploaded'}
+            </td>
+            </tr>
+        `).join('');
+
+        // Update pagination info
+        document.getElementById('page-info').textContent = `Page ${currentPage} of ${totalPages}`;
+        document.getElementById('prev-page').disabled = currentPage === 1;
+        document.getElementById('next-page').disabled = currentPage === totalPages;
+    } catch (error) {
+        console.error('Error fetching vendors:', error);
+        alert('Error fetching vendor data.');
+    }
+}
+
+// Handle Previous button
+document.getElementById('prev-page').addEventListener('click', () => {
+    if (currentPage > 1) {
+        fetchVendors(currentPage - 1);
+    }
+});
+
+// Handle Next button
+document.getElementById('next-page').addEventListener('click', () => {
+    if (currentPage < totalPages) {
+        fetchVendors(currentPage + 1);
+    }
+});
+
+// Handle Search
+document.getElementById('search-input').addEventListener('input', (event) => {
+    const searchTerm = event.target.value.trim();
+    fetchVendors(1, searchTerm); // Always start from page 1 on a new search
+});
+
+// Initial fetch
+fetchVendors();
+
+    </script>
+
+</body>
+</html>

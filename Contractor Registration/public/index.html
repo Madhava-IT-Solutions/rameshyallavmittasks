@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contractor Registration</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+    <link href="style.css" rel="stylesheet" />
+    
+</head>
+<body>
+  
+
+ <div class="bg">
+    <h1>Contractor Registration Form</h1>
+    <form action="/submit" method="POST" enctype="multipart/form-data">
+        <div class="ca">
+      <div class="card2  ">
+
+     
+        <label for="contractor_name">Name of Contractor:</label>
+        <input type="text" id="contractor_name" name="contractor_name" required><br><br>
+
+        <label for="firm_name">Name of Firm:</label>
+        <input type="text" id="firm_name" name="firm_name" required><br><br>
+
+        <label for="license_number">License Number:</label>
+        <input type="text" id="license_number" name="license_number" required><br><br>
+        <div>
+        <label class="lab" for="area_of_interest">Area of Interest:</label>
+        <div class="interest-input ">
+            <input class="labs" type="text" id="interest_input" placeholder="Enter a skill or interest" />
+            <button type="button" id="add_interest_button">Add</button>
+        </div>
+        <div id="tags_container" class="tags-container"></div>
+        <input type="hidden" id="interests" name="interests" value="" >
+    </div>
+        </div>
+        <div class="card3 ">
+
+        <label for="license_type">Type of License:</label>
+        <select id="license_type" name="license_type" required>
+            <option value="I">I</option>
+            <option value="II">II</option>
+            <option value="III">III</option>
+            <option value="IV">IV</option>
+            <option value="V">V</option>
+            <option value="I(A)">I(A)</option>
+            <option value="Class A">Class A</option>
+            <option value="Class B">Class B</option>
+            <option value="Class C">Class C</option>
+            <option value="Class D">Class D</option>
+        </select><br><br>
+
+       
+
+        <label for="state">State:</label>
+        <select id="state" name="state" required>
+            <option value="">Select State</option>
+            <option value="State1">State1</option>
+            <option value="State2">State2</option>
+        </select><br><br>
+
+        <label for="district">District:</label>
+        <select id="district" name="district" required>
+            <option value="">Select District</option>
+            <option value="District1">District1</option>
+            <option value="District2">District2</option>
+        </select><br><br>
+
+        <label for="mobile_number">Mobile Number:</label>
+        <input type="text" id="mobile_number" name="mobile_number" required><br><br>
+      </div> 
+      <div class="card3 ">
+        <label for="place">Place:</label>
+        <input type="text" id="place" name="place" required><br><br>
+       
+        <label class="la" for="experience">Years of Experience:</label>
+        <input type="number" id="experience" name="experience" required><br><br>
+
+        <label class="label "  for="license_file">Upload License (PDF):</label>
+        <input type="file" id="license_file" name="license_file" download required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+      </div>
+  
+    </div>
+    <div class="car">
+
+     
+
+        <label>
+            <input type="checkbox" name="consent" required>
+            I hereby convey my consent to register my firm with SSV Constructions to participate in private tenders.
+        </label><br><br>
+
+
+</div>
+<div class="butt">
+    <button class="bt" type="submit">Submit</button>
+  </div>
+</div>
+
+    </form>
+
+    
+    <input type="text" id="search-input" placeholder="Search contractors..." style="width: 30%; padding: 8px; font-size: 16px;">
+    <h2>Registered Contractors</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Contractor Name</th>
+                <th>Firm Name</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
+                <th>License Number</th>
+                <th>License Type</th>
+                <th>Location</th>
+                
+                <th>Experience</th>
+                <th>License File</th>
+                <th>Interests</th>
+            </tr>
+        </thead>
+        <tbody id="contractors-table"></tbody>
+    </table>
+    <div id="pagination" style="text-align: right; margin-top: 20px;"></div>
+ 
+    <script>
+      const API_BASE_URL = "http://localhost:3000";
+
+
+
+// Initial fetch
+async function fetchContractors(search = '', page = 1, limit = 5) {
+    try {
+        const response = await fetch(`/data?search=${encodeURIComponent(search)}&page=${page}&limit=${limit}`);
+        const { contractors, total, totalPages } = await response.json();
+
+        // Update the table with contractors
+        const tableBody = document.getElementById('contractors-table');
+        tableBody.innerHTML = contractors.map(contractor => `
+            <tr>
+                <td>${contractor.id}</td>
+                <td>${contractor.contractor_name}</td>
+                <td>${contractor.firm_name}</td>
+                 <td>${contractor.mobile_number}</td>
+                <td>${contractor.email}</td>
+                <td>${contractor.license_number}</td>
+                <td>${contractor.license_type}</td>
+                <td><strong>State:</strong> ${contractor.state}<br>
+                    <strong>District:</strong> ${contractor.district}<br>
+                    <strong>Place:</strong> ${contractor.place}</td>
+                <td>${contractor.experience}</td>
+                <td><a href="/uploads/${contractor.license_file}" download>Download</a></td>
+                <td>${contractor.interests ? contractor.interests.join(', ') : ''}</td>
+            </tr>
+        `).join('');
+
+        // Update pagination
+        updatePagination(totalPages, page, search);
+    } catch (error) {
+        console.error('Error fetching contractors:', error);
+        alert('Error fetching contractors data.');
+    }
+}
+
+function updatePagination(totalPages, currentPage, search) {
+    const paginationDiv = document.getElementById('pagination');
+    paginationDiv.innerHTML = '';
+
+    // Create the pagination display
+    const pageDisplay = document.createElement('span');
+    pageDisplay.textContent = `Page ${currentPage} of ${totalPages}`;
+    pageDisplay.style.marginRight = '10px';
+
+    // Create "Previous" button
+    const prevButton = document.createElement('button');
+    prevButton.textContent = 'Previous';
+    prevButton.style.margin = '0 5px';
+    prevButton.style.padding = '5px 10px';
+    prevButton.style.cursor = 'pointer';
+    prevButton.disabled = currentPage === 1; // Disable if on the first page
+
+    prevButton.addEventListener('click', () => {
+        fetchContractors(search, currentPage - 1); // Fetch previous page
+    });
+
+    // Create "Next" button
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Next';
+    nextButton.style.margin = '0 5px';
+    nextButton.style.padding = '5px 10px';
+    nextButton.style.cursor = 'pointer';
+    nextButton.disabled = currentPage === totalPages; // Disable if on the last page
+
+    nextButton.addEventListener('click', () => {
+        fetchContractors(search, currentPage + 1); // Fetch next page
+    });
+
+    // Append elements to the pagination div
+    paginationDiv.appendChild(pageDisplay);
+    paginationDiv.appendChild(prevButton);
+    paginationDiv.appendChild(nextButton);
+}
+
+// Search input listener
+document.getElementById('search-input').addEventListener('input', function () {
+    const searchQuery = this.value.trim();
+    fetchContractors(searchQuery, 1); // Reset to the first page when searching
+});
+
+// Initial fetch
+
+
+
+
+  
+    const tagsContainer = document.getElementById('tags_container');
+    const interestInput = document.getElementById('interest_input');
+    const addInterestButton = document.getElementById('add_interest_button');
+    const form = document.querySelector('form');
+    
+    // Create an array to store interests
+    let interestsArray = [];
+
+    addInterestButton.addEventListener('click', () => {
+        const interest = interestInput.value.trim();
+        if (interest) {
+            // Add interest to the array
+            interestsArray.push(interest);
+            
+            // Create a tag element to display the interest
+            const tag = document.createElement('div');
+            tag.className = 'tag';
+            tag.innerHTML = `${interest} <span>&times;</span>`;
+            tagsContainer.appendChild(tag);
+
+            // Clear the input field
+            interestInput.value = '';
+
+            // Remove tag on clicking the cross mark
+            tag.querySelector('span').addEventListener('click', () => {
+                tagsContainer.removeChild(tag);
+                interestsArray = interestsArray.filter(item => item !== interest); // Remove from array
+            });
+
+            // Update the hidden input field with the comma-separated interests
+            document.getElementById('interests').value = interestsArray.join(',');
+        }
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', (event) => {
+        // Convert the interests array to a comma-separated string
+        const interestsField = document.getElementById('interests');
+        interestsField.value = interestsArray.join(','); // Set the interests as a string in hidden field (for submission)
+    });
+
+
+        fetchContractors();
+    </script>
+</body>
+</html>

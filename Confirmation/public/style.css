@@ -1,0 +1,227 @@
+
+
+form{
+ 
+    width: 60vw;
+    height: 70vh;
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+.im{
+  width:50vw ;
+  height: 70vh;
+}
+
+select{
+    width: 10vw;
+}
+.bg{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card1{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px;
+}
+.card2{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+
+ 
+}
+.card3{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  align-items: center;
+
+}
+.card2s{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  align-items: center;
+
+  margin: 10px;
+}
+label{
+    margin: 10px;
+}
+.lab{
+    margin-right: -60px;
+}
+.labs{
+    margin-left: 30px;
+}
+table{
+    width: 98%;
+  border-collapse: collapse;
+  padding: 10px;
+}
+table th{
+    background-color: rgb(222, 131, 131);
+    height: 6vh;
+    color: rgb(24, 18, 8);
+}
+table td{
+    padding: 10px;
+}
+
+.butt{
+    display: flex;
+    justify-content: center;
+
+}
+.bt{
+    background-color: cornflowerblue;
+    color: black;
+    font-size: 15px;
+    font-family: monospace;
+    border: 1px solid red;
+    outline: none;
+    cursor: pointer;
+    width: 10vw;
+    border-radius: 5px;
+    height: 5vh;
+}
+.heading{
+    text-align: center;
+    color: crimson;
+    font-size: 30px;
+    font-family: roboto;
+    font-weight: 500;
+}
+
+#captchaDisplay {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 5px;
+  color: #333;
+  display: inline-block;
+  transform: skewX(-20deg); /* Apply inclination */
+  position: relative;
+
+
+  
+}
+.captcha-container {
+  margin-top: 20px;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+}
+#captchaDisplay::after {
+  content: '';
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: red; /* Line through CAPTCHA */
+  transform: translateY(-50%);
+}
+
+#captchaInput {
+  padding: 8px;
+  margin-right: 10px;
+ 
+}
+.spa{
+  border: 1px solid red;
+  width: 10vw;
+  height: 5vh;
+  text-align: center;
+
+background-image: url("https://static.vecteezy.com/system/resources/thumbnails/006/742/467/small/beautiful-elegance-blooming-baby-pink-color-tender-carnations-in-row-isolated-on-bright-pink-background-mothers-day-greeting-design-concept-top-view-flat-lay-close-up-copy-space-free-photo.jpg");
+background-size: cover;
+ 
+ 
+}
+
+#refreshCaptcha {
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+  
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: none;
+  }
+  
+  .popup img {
+    width: 150px;
+    height: 250px;
+  }
+  
+  .popup h2 {
+    margin-top: 15px;
+    color: #4CAF50;
+  }
+  .popup button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .popup button:hover {
+    background-color: #45a049;
+  }
+  
+  .in{
+    height: 10px;
+  }
+  .hea{
+    font-family: roboto;
+    font-size: 14px;
+    margin-left: 10px;
+    
+  }
+
+
+  .bar_content {
+    display: block; /* Important to give the content a width */
+  
+    width: 100%;
+    overflow-x: hidden;
+    transform: translateX(100%); /* Animation start out of the screen */
+  
+    /* Add the animation */
+    animation: move 20s linear infinite /* infinite make reapeat the animation indefinitely */;
+  }
+  
+  /* Create the animation */
+  @keyframes move {
+    to { transform: translateX(-100%); }
+  }

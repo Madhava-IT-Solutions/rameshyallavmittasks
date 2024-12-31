@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contractor Form</title>
+  <link href="style.css" rel="stylesheet" />
+  <script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const captchaDisplay = document.getElementById('captchaDisplay');
+      const captchaInput = document.getElementById('captchaInput');
+      const refreshCaptcha = document.getElementById('refreshCaptcha');
+      const tenderForm = document.getElementById('tenderForm');
+
+      // Function to generate CAPTCHA
+      function generateCaptcha() {
+        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let captcha = '';
+        for (let i = 0; i < 6; i++) {
+          captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        captchaDisplay.textContent = captcha;
+      }
+
+      // Refresh CAPTCHA on button click
+      refreshCaptcha.addEventListener('click', generateCaptcha);
+      generateCaptcha();
+
+      // Form submission event
+      tenderForm.addEventListener('submit', (e) => {
+        const formData = new FormData(tenderForm);
+        const captchaValue = captchaInput.value;
+        const expectedCaptcha = captchaDisplay.textContent;
+
+        if (captchaValue !== expectedCaptcha) {
+          e.preventDefault();
+          alert('Incorrect CAPTCHA. Please try again.');
+          generateCaptcha(); // Regenerate CAPTCHA for retry
+        } else {
+          e.preventDefault(); // Prevent the default form submission
+          submitForm(formData);
+        }
+      });
+
+      // Function to send form data to the server
+      function submitForm(formData) {
+      const url = 'http://localhost:3000/submit-tender';
+
+      // Create a new object for POST request
+      const data = new URLSearchParams();
+
+      // Add each form field to the URLSearchParams object
+      formData.forEach((value, key) => {
+        data.append(key, value);
+      });
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to submit tender application');
+        }
+        return response.text();
+      })
+      .then(result => {
+        showPopup('Success', 'Your submission was successful!');
+        tenderForm.reset(); // Reset form after successful submission
+        generateCaptcha(); // Regenerate CAPTCHA for new submission
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to submit tender application. Please try again later.');
+      });
+    }
+
+
+      // Function to show a thank you popup
+      function showPopup(title, message) {
+        const popup = document.createElement('div');
+        popup.className = 'popup';
+        popup.innerHTML = `
+          <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success">
+          <h2>${title}</h2>
+          <p>${message}</p>
+          <button id="closePopup">Close</button>
+        `;
+        document.body.appendChild(popup);
+        popup.classList.add("im")
+        popup.style.display = 'block';
+
+        // Close popup event
+        const closePopup = document.getElementById('closePopup');
+        closePopup.addEventListener('click', () => {
+          popup.remove();
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+  <div class="bg">
+
+  
+ 
+      <div><h1 class=" bar_content heading">Contractor Application Form</h1><div>
+   
+  
+  <form id="tenderForm" enctype="multipart/form-data" method="POST" action="/submit-tender">
+    <!-- Form Fields -->
+    <div class="card2">
+      <label>Name of Work: <input type="text" name="name_of_work" required></label><br>
+      <label>Area: <input type="text" name="area" required></label><br>
+      <label>Plinth Area: <input type="text" name="plinth_area" required></label><br>
+    </div>
+    <div class="card3">
+      <label>State: <input type="text" name="state" required></label><br>
+      <label>District: <input type="text" name="district" required></label><br>
+      <label>Place: <input type="text" name="place" required></label><br>
+    </div>
+    <div class="card2s">
+      <label>Nature of Work: <input type="text" name="nature_of_work"></label><br>
+      <label>Tender Published On: <input type="date" name="tender_published_on" required></label><br>
+      <label>Tender Response By: <input type="date" name="tender_response_by" required></label><br>
+   
+    </div>
+    <div class="contractor-info ">
+      <h2 class="hea">Contractor Details:</h2>
+      <div class="card2">
+      <label>Contractor ID / Name: <input type="text" name="contractor_id" required></label><br>
+      <label>License No: <input type="text" name="license_no" required></label><br>
+      <label>Type of License:
+        <select name="license_type" required>
+          <option value="" disabled selected>Select License Type</option>
+          <option value="I">I</option>
+          <option value="II">II</option>
+          <option value="III">III</option>
+          <option value="IV">IV</option>
+          <option value="V">V</option>
+          <option value="I(A)">I(A)</option>
+          <option value="Class A">Class A</option>
+          <option value="Class B">Class B</option>
+          <option value="Class C">Class C</option>
+          <option value="Class D">Class D</option>
+        </select>
+      </label><br>
+    </div>
+    <div class="card2">
+
+    
+      <label>Address: <textarea name="address" required></textarea></label><br>
+      <label>Mobile: <input type="tel" name="mobile" required></label><br>
+      <label>Email: <input type="email" name="email" required></label><br>
+    </div>
+    </div>
+    <!-- CAPTCHA Section -->
+    <div class="captcha-container">
+      <label> <div class="spa"><span  id="captchaDisplay"></span></div></label><br>
+      <input class="in" type="text" id="captchaInput" required placeholder="Enter captcha">
+<div>
+  <button type="button" id="refreshCaptcha">Refresh CAPTCHA</button>
+</div>
+    </div>
+   
+    <!-- Submit Button -->
+     <div class="butt">
+      <input class="bt" type="submit" value="Submit">
+     </div>
+ 
+  </form>
+</div>
+</body>
+</html>
