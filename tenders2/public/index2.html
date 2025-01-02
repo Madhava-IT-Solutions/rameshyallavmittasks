@@ -190,6 +190,7 @@
 
       if (response.ok) {
         alert('Tender submitted successfully!');
+        document.getElementById('tender-form').reset()
         loadTenders();
       } else {
         alert('Failed to submit tender.');
