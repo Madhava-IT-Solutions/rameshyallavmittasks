@@ -3,176 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contractor Form</title>
-  <link href="style.css" rel="stylesheet" />
-  <script src="https://smtpjs.com/v3/smtp.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const captchaDisplay = document.getElementById('captchaDisplay');
-      const captchaInput = document.getElementById('captchaInput');
-      const refreshCaptcha = document.getElementById('refreshCaptcha');
-      const tenderForm = document.getElementById('tenderForm');
-
-      // Function to generate CAPTCHA
-      function generateCaptcha() {
-        const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        let captcha = '';
-        for (let i = 0; i < 6; i++) {
-          captcha += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        captchaDisplay.textContent = captcha;
-      }
-
-      // Refresh CAPTCHA on button click
-      refreshCaptcha.addEventListener('click', generateCaptcha);
-      generateCaptcha();
-
-      // Form submission event
-      tenderForm.addEventListener('submit', (e) => {
-        const formData = new FormData(tenderForm);
-        const captchaValue = captchaInput.value;
-        const expectedCaptcha = captchaDisplay.textContent;
-
-        if (captchaValue !== expectedCaptcha) {
-          e.preventDefault();
-          alert('Incorrect CAPTCHA. Please try again.');
-          generateCaptcha(); // Regenerate CAPTCHA for retry
-        } else {
-          e.preventDefault(); // Prevent the default form submission
-          submitForm(formData);
-        }
-      });
-
-      // Function to send form data to the server
-      function submitForm(formData) {
-      const url = 'http://localhost:3000/submit-tender';
-
-      // Create a new object for POST request
-      const data = new URLSearchParams();
-
-      // Add each form field to the URLSearchParams object
-      formData.forEach((value, key) => {
-        data.append(key, value);
-      });
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: data,
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to submit tender application');
-        }
-        return response.text();
-      })
-      .then(result => {
-        showPopup('Success', 'Your submission was successful!');
-        tenderForm.reset(); // Reset form after successful submission
-        generateCaptcha(); // Regenerate CAPTCHA for new submission
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to submit tender application. Please try again later.');
-      });
-    }
-
-
-      // Function to show a thank you popup
-      function showPopup(title, message) {
-        const popup = document.createElement('div');
-        popup.className = 'popup';
-        popup.innerHTML = `
-          <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Success">
-          <h2>${title}</h2>
-          <p>${message}</p>
-          <button id="closePopup">Close</button>
-        `;
-        document.body.appendChild(popup);
-        popup.classList.add("im")
-        popup.style.display = 'block';
-
-        // Close popup event
-        const closePopup = document.getElementById('closePopup');
-        closePopup.addEventListener('click', () => {
-          popup.remove();
-        });
-      }
-    });
-  </script>
+  <title>Confirmation Page</title>
+  <link rel="stylesheet" href="style2.css">
 </head>
 <body>
-  <div class="bg">
+  <div class="confirmation-container">
+    <h1>Confirmation</h1>
+    <p id="confirmation-message">Please wait while we retrieve your tender details...</p>
 
-  
- 
-      <div><h1 class=" bar_content heading">Contractor Application Form</h1><div>
-   
-  
-  <form id="tenderForm" enctype="multipart/form-data" method="POST" action="/submit-tender">
-    <!-- Form Fields -->
-    <div class="card2">
-      <label>Name of Work: <input type="text" name="name_of_work" required></label><br>
-      <label>Area: <input type="text" name="area" required></label><br>
-      <label>Plinth Area: <input type="text" name="plinth_area" required></label><br>
+    <div id="tender-details">
+      <!-- Tender details will be loaded here -->
     </div>
-    <div class="card3">
-      <label>State: <input type="text" name="state" required></label><br>
-      <label>District: <input type="text" name="district" required></label><br>
-      <label>Place: <input type="text" name="place" required></label><br>
-    </div>
-    <div class="card2s">
-      <label>Nature of Work: <input type="text" name="nature_of_work"></label><br>
-      <label>Tender Published On: <input type="date" name="tender_published_on" required></label><br>
-      <label>Tender Response By: <input type="date" name="tender_response_by" required></label><br>
-   
-    </div>
-    <div class="contractor-info ">
-      <h2 class="hea">Contractor Details:</h2>
-      <div class="card2">
-      <label>Contractor ID / Name: <input type="text" name="contractor_id" required></label><br>
-      <label>License No: <input type="text" name="license_no" required></label><br>
-      <label>Type of License:
-        <select name="license_type" required>
-          <option value="" disabled selected>Select License Type</option>
-          <option value="I">I</option>
-          <option value="II">II</option>
-          <option value="III">III</option>
-          <option value="IV">IV</option>
-          <option value="V">V</option>
-          <option value="I(A)">I(A)</option>
-          <option value="Class A">Class A</option>
-          <option value="Class B">Class B</option>
-          <option value="Class C">Class C</option>
-          <option value="Class D">Class D</option>
-        </select>
-      </label><br>
-    </div>
-    <div class="card2">
 
-    
-      <label>Address: <textarea name="address" required></textarea></label><br>
-      <label>Mobile: <input type="tel" name="mobile" required></label><br>
-      <label>Email: <input type="email" name="email" required></label><br>
-    </div>
-    </div>
-    <!-- CAPTCHA Section -->
-    <div class="captcha-container">
-      <label> <div class="spa"><span  id="captchaDisplay"></span></div></label><br>
-      <input class="in" type="text" id="captchaInput" required placeholder="Enter captcha">
-<div>
-  <button type="button" id="refreshCaptcha">Refresh CAPTCHA</button>
-</div>
-    </div>
-   
-    <!-- Submit Button -->
-     <div class="butt">
-      <input class="bt" type="submit" value="Submit">
-     </div>
- 
-  </form>
-</div>
+    <button onclick="goBack()">Go Back</button>
+  </div>
+
+  <script>
+    // Fetch tender details using the ID from the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const tenderId = urlParams.get('id');
+
+    async function loadTenderDetails() {
+      const response = await fetch(`https://tenders-4ezx.onrender.com/api/tenders/${tenderId}`);
+      const tender = await response.json();
+      const tenderDetailsElement = document.getElementById('tender-details');
+      
+      if (tender) {
+        tenderDetailsElement.innerHTML = `
+          <h2>Tender ID: ${tender.id}</h2>
+          <p><strong>Name of Work:</strong> ${tender.name_of_work}</p>
+          <p><strong>Area:</strong> ${tender.area}</p>
+          <p><strong>Plinth Area:</strong> ${tender.plinth_area}</p>
+          <p><strong>State:</strong> ${tender.state}</p>
+          <p><strong>District:</strong> ${tender.district}</p>
+          <p><strong>Place:</strong> ${tender.place}</p>
+          <p><strong>Nature of Work:</strong> ${tender.nature_of_work}</p>
+          <p><strong>Tender Published On:</strong> ${tender.tender_published_on}</p>
+          <p><strong>Tender Response By:</strong> ${tender.tender_response_by}</p>
+          <p><strong>BoQ File:</strong> <a href="/uploads/${tender.boq_file}" download>Download</a></p>
+        `;
+      } else {
+        tenderDetailsElement.innerHTML = `<p>No details found for this tender.</p>`;
+      }
+    }
+
+    // Call the function to load tender details
+    loadTenderDetails();
+
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </body>
 </html>

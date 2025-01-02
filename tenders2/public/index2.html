@@ -190,6 +190,7 @@
 
       if (response.ok) {
         alert('Tender submitted successfully!');
+       
         loadTenders();
       } else {
         alert('Failed to submit tender.');
@@ -339,10 +340,10 @@ document.getElementById('search-bar').addEventListener('input', (e) => {
 
 
     function apply(tenderId) {
-      // Redirect to the confirmation page with the tender details
-      window.location.href = `https://tenders-4ezx.onrender.com/?id=${tenderId}`;
-    }
-    
+  // Redirect to the confirmation page with the tender details
+  window.location.href = `https://tenders-4ezx.onrender.com/Confirmation?id=${tenderId}`;
+}
+
 
     
     loadTenders();

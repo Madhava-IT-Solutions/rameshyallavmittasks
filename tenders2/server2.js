@@ -5,7 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -100,8 +100,9 @@ app.post('/api/submit', upload.single('boq_file'), (req, res) => {
           return res.status(500).send('Failed to insert data');
         }
         const redirectUrl = process.env.NODE_ENV === 'production'
-        ? `https://tenders-4ezx.onrender.com/?id=${tenderId}` // URL for Render
-        : `http://localhost:${PORT}/?id=${tenderId}`; // Local development URL
+        ? `https://tenders-4ezx.onrender.com/Confirmation?id=${tenderId}`  // Redirect to the confirmation page
+        : `http://localhost:${PORT}/Confirmation?id=${tenderId}`;  // Local dev confirmation page
+      
 
       res.send({ message: 'Tender submitted successfully', tenderId });
       res.json({ redirectUrl });
