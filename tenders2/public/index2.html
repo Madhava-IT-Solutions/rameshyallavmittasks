@@ -183,7 +183,7 @@
       e.preventDefault();
       const formData = new FormData(e.target);
 
-      const response = await fetch('http://localhost:3000/api/submit', {
+      const response = await fetch('https://tenders-4ezx.onrender.com/api/submit', {
         method: 'POST',
         body: formData,
       });
@@ -197,7 +197,7 @@
     });
 
     async function loadTenders() {
-      const response = await fetch('http://localhost:3000/api/tenders');
+      const response = await fetch('https://tenders-4ezx.onrender.com/api/tenders');
       tenders = await response.json();
    
       checkForArchive();
@@ -258,7 +258,7 @@ function displayFilteredTenders(filteredTenders) {
   });
 }
 async function filterTendersBackend(query) {
-  const response = await fetch(`http://localhost:3000/api/search?query=${query}`);
+  const response = await fetch(`https://tenders-4ezx.onrender.com/api/search?query=${query}`);
   const filteredTenders = await response.json();
   displayFilteredTenders(filteredTenders);
 }
