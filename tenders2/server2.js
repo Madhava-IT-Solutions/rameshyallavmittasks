@@ -15,6 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 const uploadsDir = path.join(__dirname, 'uploads');
 
+
+
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index2.html')); // Adjust path to your HTML file
 });
@@ -96,7 +99,12 @@ app.post('/api/submit', upload.single('boq_file'), (req, res) => {
         if (err) {
           return res.status(500).send('Failed to insert data');
         }
-        res.send({ message: 'Tender submitted successfully', tenderId });
+        const redirectUrl = process.env.NODE_ENV === 'production'
+        ? `https://tenders-4ezx.onrender.com/?id=${tenderId}` // URL for Render
+        : `http://localhost:${PORT}/?id=${tenderId}`; // Local development URL
+
+      res.send({ message: 'Tender submitted successfully', tenderId });
+      res.json({ redirectUrl });
       }
     );
   });

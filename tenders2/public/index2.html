@@ -340,8 +340,9 @@ document.getElementById('search-bar').addEventListener('input', (e) => {
 
     function apply(tenderId) {
       // Redirect to the confirmation page with the tender details
-      window.location.href = `/apply/${tenderId}`;
+      window.location.href = `https://tenders-4ezx.onrender.com/?id=${tenderId}`;
     }
+    
 
     
     loadTenders();

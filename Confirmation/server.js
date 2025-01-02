@@ -54,7 +54,22 @@ const transporter = nodemailer.createTransport({
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'confir.html'));
+  const tenderId = req.query.id;
+
+  if (!tenderId) {
+    return res.status(400).send('Tender ID is required.');
+  }
+
+  db.get(`SELECT * FROM tenders WHERE id = ?`, [tenderId], (err, row) => {
+    if (err) {
+      return res.status(500).send('Database error');
+    }
+    if (!row) {
+      return res.status(404).send('Tender not found');
+    }
+    // Pass tender data to the confirmation page
+    res.sendFile(path.join(__dirname, 'public', 'confir.html'));
+  });
 });
 // Handle form submission
 app.post('/submit-tender', (req, res) => {
