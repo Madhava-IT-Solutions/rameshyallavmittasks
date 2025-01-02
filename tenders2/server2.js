@@ -12,8 +12,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.use(express.static(path.join(__dirname, 'public')));
 const uploadsDir = path.join(__dirname, 'uploads');
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index2.html')); // Adjust path to your HTML file
+});
 
 if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir);
