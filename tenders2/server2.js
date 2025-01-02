@@ -1,3 +1,6 @@
+
+
+
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const multer = require('multer');
@@ -5,19 +8,16 @@ const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 const uploadsDir = path.join(__dirname, 'uploads');
-
-
-
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index2.html')); // Adjust path to your HTML file
 });
@@ -99,13 +99,7 @@ app.post('/api/submit', upload.single('boq_file'), (req, res) => {
         if (err) {
           return res.status(500).send('Failed to insert data');
         }
-        const redirectUrl = process.env.NODE_ENV === 'production'
-        ? `https://tenders-4ezx.onrender.com/Confirmation?id=${tenderId}`  // Redirect to the confirmation page
-        : `http://localhost:${PORT}/Confirmation?id=${tenderId}`;  // Local dev confirmation page
-      
-
-      res.send({ message: 'Tender submitted successfully', tenderId });
-      res.json({ redirectUrl });
+        res.send({ message: 'Tender submitted successfully', tenderId });
       }
     );
   });
