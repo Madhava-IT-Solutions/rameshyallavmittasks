@@ -140,3 +140,12 @@ table td{
     border-collapse: collapse;
     padding: 10px;
   }
+
+  @media(max-width:768px){
+    .form{
+      display: flex;
+      
+      flex-direction: row;
+      align-items: center;
+    }
+  }
