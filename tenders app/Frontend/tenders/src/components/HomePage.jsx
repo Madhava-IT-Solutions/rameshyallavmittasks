@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./HomePage.css";
+import "./Homepage.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
