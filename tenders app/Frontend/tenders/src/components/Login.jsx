@@ -172,7 +172,7 @@ const Login = () => {
                           
                             <div   >
                                   <table>
-                                
+                                  <marquee direction="up" scrolldelay="30" onmouseover="this.stop();" onmouseout="this.start();">
                                         <thead >
                                           <tr  className=' thead '>
                                             <th>Tender ID</th>
@@ -185,7 +185,7 @@ const Login = () => {
                                             
                                           </tr>
                                         </thead>
-                                        <marquee direction="up" scrolldelay="30" onmouseover="this.stop();" onmouseout="this.start();">
+                                       
                                             <tbody  >
                                               {displayTenders.map((tender) => (
 
