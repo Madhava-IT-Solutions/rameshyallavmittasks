@@ -416,7 +416,7 @@ const ClientDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {displayTenders.map((tender) => (
+          {paginatedTenders.map((tender) => (
             <tr key={tender.tender_id}>
               <td>{tender.tender_id}</td>
               <td>{tender.tender_type}</td>
