@@ -13,7 +13,7 @@ const ArchivePage = () => {
 
   const loadArchivedTenders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3001/home/api/tenders");
+      const { data } = await axios.get("https://tenders-server.onrender.com/home/api/tenders");
       const currentDate = new Date().toISOString().split("T")[0];
       const archivedTenders = data.filter((tender) => tender.tender_response_by <= currentDate);
       setArchive(archivedTenders);

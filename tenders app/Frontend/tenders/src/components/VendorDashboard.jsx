@@ -64,7 +64,7 @@ const VendorDashboard = () => {
     
     const loadContractors = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3001/home/api/contractors`);
+        const { data } = await axios.get(`https://tenders-server.onrender.com/home/api/contractors`);
         console.log(data);
         setContractors(data); // Update state with contractor data
       } catch (error) {
@@ -74,7 +74,7 @@ const VendorDashboard = () => {
     
     const loadApplications = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3001/home/api/Contractor-applications/${userDetails.id}`);
+        const { data } = await axios.get(`https://tenders-server.onrender.com/home/api/Contractor-applications/${userDetails.id}`);
         const applications = data
   
         setApplications(applications)
@@ -84,7 +84,7 @@ const VendorDashboard = () => {
     };
   const loadTenders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3001/home/api/tenders");
+      const { data } = await axios.get("https://tenders-server.onrender.com/home/api/tenders");
       const currentDate = new Date().toISOString().split("T")[0];
       const activeTenders = data.filter((tender) => tender.tender_response_by > currentDate);
       const archivedTenders = data.filter((tender) => tender.tender_response_by <= currentDate);
@@ -212,11 +212,11 @@ const VendorDashboard = () => {
           <div className='right-nav'>
           <ul>
             <li>Home</li>
-            <li>My Applications</li>
+            <li><a className="anc" href="#applications">My Applications</a></li>
            
-            <li>Contractors</li>
+            <li><a className="anc"  href="#contractors">Contractors</a></li>
 
-            <li>Clients</li>
+           
 
             <li>Orders</li>
 

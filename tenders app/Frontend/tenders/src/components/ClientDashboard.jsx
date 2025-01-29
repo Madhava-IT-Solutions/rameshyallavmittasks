@@ -1,4 +1,3 @@
-
 import{React, useState, useEffect } from "react";
 import { data, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -17,13 +16,11 @@ import '../App.css';
 
 
 
-
 const ClientDashboard = () => {
   const token = localStorage.getItem('token');
   const { role } = jwtDecode(token);
 
   const navigate = useNavigate();
-
   const handleLogout = () => {
     localStorage.removeItem('token'); // Remove JWT token from localStorage
     navigate('/login'); // Redirect to login page
@@ -43,6 +40,7 @@ const ClientDashboard = () => {
     tender_response_by: "",
     client_id:""
   });
+  const [userDetails, setUserDetails] = useState({});
   const [tenders, setTenders] = useState([]);
   const [activeTenders,setactiveTenders] = useState([])
   const [myTenders,setMyTenders] = useState([])
@@ -51,9 +49,44 @@ const ClientDashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [applications, setApplications] = useState([]);
   const [contractors, setContractors] = useState([]);
-
-
+  const [displayTenders1, setDisplayTenders] = useState([]);
+  const [filterType, setFilterType] = useState("All");
   const itemsPerPage = 5;
+
+  useEffect(() => {
+    const loadTenders = async () => {
+      try {
+        const { data } = await axios.get("https://tenders-server.onrender.com/home/api/tenders");
+        setTenders(data);
+        setDisplayTenders(data);
+      } catch (error) {
+        console.error("Failed to load tenders:", error);
+      }
+    };
+    loadTenders();
+   
+  }, []);
+  
+
+
+  const filterTenders = (type) => {
+    setFilterType(type);
+    if (type === "All") {
+      setDisplayTenders(tenders);
+    } else {
+      setDisplayTenders(tenders.filter((tender) => tender.tender_type === type));
+    }
+  };
+
+  const handlePageChangel = (direction) => {
+    setCurrentPage((prevPage) => Math.max(1, prevPage + direction));
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedTenders = displayTenders1.slice(startIndex, startIndex + itemsPerPage);
+
+
+
   
   const statesAndDistricts = {
     "Andhra Pradesh": ["Anantapur", "Chittoor", "East Godavari"],
@@ -72,12 +105,8 @@ const ClientDashboard = () => {
     "Buildings",
   ];
 
-  useEffect(() => {
-    setStates(Object.keys(statesAndDistricts));
-    loadTenders();
-    loadContractors();
-    loadApplications();
-  }, []);
+ 
+
 
   const handleStateChange = (selectedState) => {
     setForm({ ...form, state: selectedState });
@@ -108,7 +137,7 @@ const ClientDashboard = () => {
     
     console.log(formData)
     try {
-      const res = await axios.post('http://localhost:3001/home/api/submit', formData, {
+      const res = await axios.post('https://tenders-server.onrender.com/home/api/submit', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         }
@@ -123,7 +152,8 @@ const ClientDashboard = () => {
   };
 
 
-  const getUserDetails = () => {
+
+  const getUserDetails = async () => {
     const userDetailsString = localStorage.getItem('userDetails');
   
     if (!userDetailsString) {
@@ -132,20 +162,19 @@ const ClientDashboard = () => {
     }
   
     try {
-      const userDetails = JSON.parse(userDetailsString);
-      return userDetails; // Return the parsed object
+      const userDetails = await JSON.parse(userDetailsString);
+      setUserDetails(userDetails) // Return the parsed object
     } catch (error) {
       console.error('Error parsing user details:', error);
       return null;
     }
   };
   
-  const userDetails = getUserDetails()
+
 
   const loadContractors = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:3001/home/api/contractors`);
-      console.log(data);
+      const { data } = await axios.get(`https://tenders-server.onrender.com/home/api/contractors`);
       setContractors(data); // Update state with contractor data
     } catch (error) {
       console.error("Failed to load contractors:", error);
@@ -155,7 +184,7 @@ const ClientDashboard = () => {
   
   const loadApplications = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:3001/home/api/applications/${userDetails.id}`);
+      const { data } = await axios.get(`https://tenders-server.onrender.com/home/api/applications/${userDetails.id}`);
       const applications = data
 
       setApplications(applications)
@@ -163,10 +192,18 @@ const ClientDashboard = () => {
       console.error("Failed to load applications:", error);
     }
   };
+  useEffect(() => {
+    setStates(Object.keys(statesAndDistricts));
+    loadTenders();
+    loadContractors();
+    loadApplications();
+    getUserDetails();
+  }, []);
+
   
   const loadTenders = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3001/home/api/tenders");
+      const { data } = await axios.get("https://tenders-server.onrender.com/home/api/tenders");
       const currentDate = new Date().toISOString().split("T")[0];
       const activeTenders = data.filter((tender) => tender.tender_response_by > currentDate);
       const archivedTenders = data.filter((tender) => tender.tender_response_by <= currentDate);
@@ -205,131 +242,48 @@ const ClientDashboard = () => {
     navigate("/archive");}
 
 
-    const handleFormSubmit = (e) => {
-      e.preventDefault();
-    
-      // Collect values from the form
-      const name = e.target.name.value;
-      const email = e.target.email.value;
-      const phone = e.target.phone.value;
-
-      // Send data to the backend
-      fetch("http://localhost:3001/update-profile", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, phone }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          alert(data.message); // Display success message
-          console.log("Updated Profile:", data.updatedProfile);
-        })
-        .catch((error) => {
-          console.error("Error updating profile:", error);
-        });
-    };
-    
 
 
-
-    const ClientProfile = ({ profile }) => {
-      const [isEditOpen, setIsEditOpen] = useState(false); // State to toggle form visibility
-    
-      const handleEditToggle = () => {
-        setIsEditOpen(!isEditOpen); // Toggle the visibility of the form
-      };
-    
+    const ClientProfile = () => {
       return (
         <>
           <div className="profile-card">
             <div className="profile-image">
-              <img src={userDetails.image || "https://via.placeholder.com/150"} alt="Profile" className="image" />
+              <img
+                src={userDetails.image}
+                alt="Profile"
+                className="image"
+              />
             </div>
             <div className="profile-info">
-              <h2 className="username">{userDetails.username || "User Name"}</h2>
-              <p className="email">{userDetails.email || "user@example.com"}</p>
-              <p>Client ID: {userDetails.id || "N/A"}</p>
+              <h2 className="username">{userDetails.username}</h2>
+              <p className="email">{userDetails.email}</p>
+              <p>Client ID :  {userDetails.id}</p>
               <p className="about">
-                Passionate business person with experience in building scalable web
+                Passionate bussiness person with experience in building scalable web
                 applications. Always eager to learn new technologies and improve my
                 skills.
               </p>
-              <button className="edit-btn" onClick={handleEditToggle}>
-                Edit Profile
-              </button>
+              
               <div className="social-media">
-                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  Facebook
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <FontAwesomeIcon icon={faFacebook} />
+                  </a>
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <FontAwesomeIcon icon={faTwitter} />
+                  </a>
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <FontAwesomeIcon icon={faLinkedin} />
+                  </a>
+                  <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-icon">
+                    <FontAwesomeIcon icon={faGithub} />
                 </a>
-                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  Twitter
-                </a>
-                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  LinkedIn
-                </a>
-                <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="social-icon">
-                  GitHub
-                </a>
-              </div>
+                </div>
             </div>
           </div>
-    
-          {/* Modal for Edit Profile */}
-          {isEditOpen && (
-            <div className="modal">
-              <div className="modal-content">
-                <h2>Edit Profile</h2>
-                <form className="edit-form" onSubmit={handleFormSubmit}>
-                  <label htmlFor="name">UserName:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Enter your full name"
-                    required
-                  />
-    
-                  <label htmlFor="email">Email:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Enter your email address"
-                    required
-                  />
-    
-                  <label htmlFor="phone">Phone:</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    placeholder="Enter your phone number"
-                  />
-    
-               
-    
-                  <button type="submit" className="save-btn">
-                    Save Changes
-                  </button>
-                  <button
-                    type="button"
-                    className="cancel-btn"
-                    onClick={handleEditToggle}
-                  >
-                    Cancel
-                  </button>
-                </form>
-              </div>
-            </div>
-          )}
-        </>
+          </>
       );
     };
-    
-  
-    
 
   return (
     <>
@@ -351,7 +305,7 @@ const ClientDashboard = () => {
               <h1>Welcome, {role}</h1>
 
               <div className="top-body">
-                  <ClientProfile />
+                  <ClientProfile key={userDetails.id} />
                   <div className='right'>
                     
                       <h3>Post a New Tender</h3>
@@ -434,46 +388,55 @@ const ClientDashboard = () => {
         </div>
 
         
-        <div className="tendersCard">
-          <div>
-            <h2>Active Tenders</h2>
-            <table>
-              <thead>
-                <tr>
-                  <th>Tender ID</th>
-                  <th>Tender Posted By</th>
-                  <th>Work Description</th>
-                  <th>Location</th>
-                  <th>Nature of Work</th>
-                  <th>Tender Published On</th>
-                  <th>Tender Response By</th>
-                  <th>BoQ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {displayTenders.map((tender) => (
-                  <tr key={tender.id}>
-                    <td key={tender.tender_id}>{tender.tender_id}</td>
-                    <td>{tender.client_name}</td>
-                    <td>{tender.name_of_work}</td>
-                    <td>{tender.state}</td>
-                    <td>{tender.nature_of_work}</td>
-                    <td>{new Date(tender.tender_published_on).toLocaleDateString()}</td>
-                    <td>{new Date(tender.tender_response_by).toLocaleDateString()}</td>
-                    <td>
-                      <a href={`/uploads/${tender.boq_file}`} download>
-                        Download
-                      </a>
-                    </td>
-                    
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
 
+        <div className="tenders-container">
+      {/*new tenders //// Header with Filter Buttons */}
+      <div className="tenders-header">
+        <h2>Active Tenders</h2>
+        <div className="filter-buttons">
+          <button onClick={() => filterTenders("All")} className={`filter-button ${filterType === "All" ? "active" : ""}`}>All</button>
+          <button onClick={() => filterTenders("Construction")} className={`filter-button ${filterType === "Construction" ? "active" : ""}`}>Construction</button>
+          <button onClick={() => filterTenders("Material")} className={`filter-button ${filterType === "Material" ? "active" : ""}`}>Material</button>
+        </div>
+      </div>
 
-            <div className="paginationCard">
+      {/* Tenders Table */}
+      <table className="tender-table">
+        <thead>
+          <tr>
+            <th>Tender ID</th>
+            <th>Tender Type</th>
+            <th>Posted By</th>
+            <th>Work Description</th>
+            <th>Location</th>
+            <th>Nature of Work</th>
+            <th>Published On</th>
+            <th>Response By</th>
+            <th>BoQ</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginatedTenders.map((tender) => (
+            <tr key={tender.tender_id}>
+              <td>{tender.tender_id}</td>
+              <td>{tender.tender_type}</td>
+              <td>{tender.client_name}</td>
+              <td>{tender.name_of_work}</td>
+              <td>{tender.state}</td>
+              <td>{tender.nature_of_work}</td>
+              <td>{new Date(tender.tender_published_on).toLocaleDateString()}</td>
+              <td>{new Date(tender.tender_response_by).toLocaleDateString()}</td>
+              <td>
+                <a className="download-btn" >Download</a>
+              </td>
+              
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Pagination */}
+      <div className="paginationCard">
                 <button onClick={() => handlePageChange(-1)}>Previous</button>
                   <span>
                     Page {currentPage} of {Math.ceil(filteredTenders.length / itemsPerPage)}
@@ -598,45 +561,6 @@ const ClientDashboard = () => {
 
         </div>
 
-        <div className="table-container">
-            <h2>Active Tenders</h2>
-            <table className="tender-table">
-              <thead>
-                <tr>
-                  <th>Tender ID</th>
-                  <th>Work Description</th>
-                  <th>Location</th>
-                  <th>Nature of Work</th>
-                  <th>Tender Published On</th>
-                  <th>Tender Response By</th>
-                  <th>BoQ</th>
-                  <th>Apply</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeTenders.map((tender, index) => (
-                  <tr key={tender.id} className={index % 2 === 0 ? "even" : "odd"}>
-                    <td data-label="Tender ID">{tender.id}</td>
-                    <td data-label="Work Description">{tender.name_of_work}</td>
-                    <td data-label="Location">{tender.state}</td>
-                    <td data-label="Nature of Work">{tender.nature_of_work || "N/A"}</td>
-                    <td data-label="Tender Published On">
-                      {new Date(tender.tender_published_on).toLocaleDateString()}
-                    </td>
-                    <td data-label="Tender Response By">
-                      {new Date(tender.tender_response_by).toLocaleDateString()}
-                    </td>
-                    <td data-label="BoQ">
-                      <a href="#" className="download-btn">Download</a>
-                    </td>
-                    <td data-label="Apply">
-                      <button className="apply-btn">Apply</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-        </div>
     </>
   );
 };

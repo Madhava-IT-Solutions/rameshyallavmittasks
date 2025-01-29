@@ -109,7 +109,7 @@ const ContractorRegistration = () => {
   
       try {
         const response = await axios.post(
-          'http://localhost:3001/registrations/api/register-contractor',
+          'https://tenders-server.onrender.com/registrations/api/register-contractor',
           data,
           { headers: { 'Content-Type': 'multipart/form-data' } }
         );

@@ -106,7 +106,7 @@ const ApplyPage = () => {
     console.log(jsonObject);
 
     try {
-      const response = await axios.post("http://localhost:3001/apply/api/apply-tender", data
+      const response = await axios.post("https://tenders-server.onrender.com/apply/api/apply-tender", data
       );
       console.log(response)
 

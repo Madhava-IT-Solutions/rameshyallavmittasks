@@ -70,7 +70,7 @@ const VendorRegistration = () => {
   
       try {
         const response = await axios.post(
-          'http://localhost:3001/registrations/api/register-vendor',
+          'https://tenders-server.onrender.com/registrations/api/register-vendor',
           data,
           { headers: { 'Content-Type': 'multipart/form-data' } }
         );
