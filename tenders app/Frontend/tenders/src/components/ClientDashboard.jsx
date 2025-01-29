@@ -8,7 +8,7 @@ import { faFacebook, faTwitter, faLinkedin, faGithub } from '@fortawesome/free-b
 
 import "./Dashboard.css"
 import "./ClientDashboard.css"
-import "./HomePage.css";
+import "./Homepage.css";
 
 
 import '../App.css';
