@@ -1,0 +1,130 @@
+.cbg{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(75, 220, 207);
+    
+    }
+    
+    .cform{
+        
+      
+        display: flex;
+        flex-direction: column;
+        background-color: aliceblue;
+        width: 50vw;
+        height: 70vh;
+        justify-content: center;
+      
+    
+    }
+    .card{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        
+    }
+    .card2{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .imges{
+    height: 74vh;
+    width: 25vw;
+    }
+
+    .card3{
+        height: 74vh;
+        width: 25vw;
+        background-image: url('');
+        background-size: cover;
+      
+      
+
+    }
+    .content{
+        color: rgb(6, 95, 15);
+        font-size: 34px;
+        font-family: roboto;
+        align-self: flex-start;
+        font-weight: bold;
+       
+    }
+    .but{
+        display: flex;
+     align-items: center;
+     justify-content: center;
+        margin-top: 20px;
+    
+    }
+    .cb{
+        background-color: blue;
+       
+        color: rgb(237, 237, 237);
+        border-radius: 8px;
+        width: 10vw;
+    }
+    .inp{
+        width: 15vw;
+        height: 4vh;
+        border-radius: 5px;
+        border: 2px solid gray;
+    }
+    .clabel{
+        color: rgb(114, 5, 5);
+        font-family:roboto;
+    }
+    .cgroup{
+        display: flex;
+        align-items: center;
+        margin-left: 50px;
+    }
+    .markq{
+        font-size: 35px;
+        color: rgb(198, 11, 164);
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .error{
+        color: red;
+        font-size: 10px;
+    }
+
+
+    .ctitle{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+       
+      
+        
+    }
+    
+    .client_welcome{
+       
+        background-color: rgb(135, 23, 105);
+        width: 30vw;
+        height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .client_img{
+        align-self: center;
+        width: 25vw;
+        height: 40vh;
+        opacity: 1;
+     
+        border-radius: 10px;
+     
+    }

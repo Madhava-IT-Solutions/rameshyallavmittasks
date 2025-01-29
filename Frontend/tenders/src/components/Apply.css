@@ -1,0 +1,105 @@
+.apply-form{
+  display: flex;
+  justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
+  
+  
+  
+  }
+  .apply-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   
+    background-color: rgb(220, 204, 232);
+    background-image: linear-gradient(to top, rgb(212, 74, 74), rgb(201, 201, 94));
+    width:30vw;
+    height: 85vh;
+    border-radius:15px;
+    box-shadow: 0px 0px 10px 3px rgb(192, 186, 186);
+   
+   
+  }
+  .apply-bg{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    min-height: 100vh;
+  
+  }
+  
+  .app_img{
+    width: 20vw;
+    height: 50vh;
+  }
+  
+  .apply-captcha{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #7603c3;
+    border-radius: 5px;
+    padding: 10px;
+    background: #fff7f2;
+    color: rgb(31, 1, 92);
+    font-size: 20px;
+   
+    
+  }
+  .apply-ca{
+    margin-top: 40px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 20vh;
+    
+  
+  }
+  
+  .apply_vendorla{
+    color: rgb(3, 3, 3);
+    font-family:roboto;
+    
+  }
+  
+  .vendorcon{
+    width: 12vw;
+    height: 5vh;
+    border-radius: 5px;
+    border: 1px solid gray;
+    background-color: aquamarine;
+    cursor:pointer;
+    outline: none;
+    margin-top: 10px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  .apply-button{
+    width: 10vw;
+    border-radius: 10px;
+    background-color: blue;
+    color: white;
+    cursor: pointer
+    ;
+    outline: none;
+    height: 5vh;
+    margin-bottom: 10px;
+  }
+  
+  .apply-inp{
+    height: 4vh;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  .apply_vendorlabel{
+    width: 22vw;
+    height: 4vh;
+    border-radius: 5px;
+    border: 2px solid gray;
+  }

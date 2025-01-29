@@ -1,0 +1,56 @@
+.dashboard{
+  min-height: 100vh;
+  width: 100%;
+}
+.d-navbar{
+  height: 100px;
+  padding-right: 20px;
+  padding-left: 20px;
+  border: 1px solid green;
+  background-color: rgba(0, 43, 41, 0.83);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.right-nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 40%;
+}
+.d-navbar ul{
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  width: 70%;
+  justify-content: space-between;
+  
+}
+.d-navbar h2{
+  color: bisque;
+  font-weight: 800;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.d-navbar ul li{
+  color: bisque;
+  cursor: pointer;
+}
+.logbutton{
+  color: aliceblue;
+  background-color: rgba(208, 103, 87, 0.993);
+  padding:20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px;
+  border: 1px solid wheat;
+  outline: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+.logbutton:hover{
+  scale: 1.05;
+  background-color: red;
+}
+

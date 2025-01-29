@@ -1,0 +1,99 @@
+.vform{
+    width: 50vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue
+    ;
+   
+}
+
+.vcard1{
+  
+    height: 40vh;
+    width: 15vw;
+    margin: 0px;
+}
+
+.vbg{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+   height: 60vh;
+}
+.vcard2{
+    
+    height: 40vh;
+    width: 15vw;
+    margin-top: 0px;
+}
+
+.vmain{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(75, 220, 207);
+    margin: -10px;
+}
+
+.vtitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+  
+    
+}
+
+.vimg{
+   
+    background-color: rgb(241, 55, 55);
+    width: 30vw;
+    height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vim{
+    align-self: center;
+    width: 25vw;
+    height: 40vh;
+    opacity: 1;
+ 
+    border-radius: 10px;
+ 
+}
+
+.vendorlabel{
+    width: 12vw;
+    height: 4vh;
+    border-radius: 5px;
+    border: 2px solid gray;
+}
+
+.vendorla{
+    color: rgb(14, 88, 51);
+    font-family:roboto;
+}
+
+.vendor_markq{
+    font-size: 35px;
+    color: brown;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.vpara{
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}

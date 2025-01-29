@@ -1,0 +1,296 @@
+/* 
+.contractor-body{
+    margin-left: 40vw;
+}
+.dashboard-container{
+    display: flex;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+
+/* Sidebar Styles */
+
+.height{
+    min-height: 60vh;
+    padding-top: 24vh;
+}
+
+.sidebar ul  a {
+    color: #054000;
+    text-decoration: none;
+
+}
+.sidebar ul a:hover {
+    color: white;
+}
+
+
+.contractor-navbar{
+    position: fixed;
+    top: 0px;
+    width: 98%;
+
+}
+.sidebar {
+    position: fixed;
+    top:14vh;
+    margin-top: -1px;
+    width: 250px;
+    background-color: #78d2b3ed;
+    color: #005c1a;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    font-weight: 700;
+    height: 100vh;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.sidebar li:hover {
+    background-color: #374151;
+    color: #f9f9f9;
+    width: 100%;
+    transition: 0.5s;
+}
+.sidebar li :hover {
+    color: #f9f9f9;
+}
+
+/* Main Content Styles */
+
+
+.main-content {
+    margin-left: 300px;
+    flex-grow: 1;
+    padding: 20px;
+    
+    scroll-behavior: smooth;
+    background-color: #ffffff69;
+}
+
+.main-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.main-content p {
+    margin: 5px 0;
+}
+
+.portfolio {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.portfolio-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    width: 150px;
+    text-align: center;
+}
+
+.portfolio-item img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px 0;
+    background-color: #f9f9f9;
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.card p {
+    margin: 5px 0;
+}
+
+.button {
+    display: inline-block;
+    background-color: #2563eb;
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #1e40af;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    .portfolio-item {
+        width: 100%;
+    }
+}
+
+
+
+
+/* Light and clean color scheme for the table */
+.tender-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  
+  .tender-table__header-cell {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14px;
+    color: #5f6368;
+    position: sticky;
+    top:200px;
+  }
+  
+  .tender-table__body-row {
+    background-color: #ffffff; /* White background for body rows */
+    transition: background-color 0.3s ease;
+
+  }
+  
+  .tender-table__body-cell {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #616161; /* Dark gray text for readability */
+  }
+  
+  .tender-table__body-row:hover {
+    background-color: #fafafa; /* Light hover effect */
+  }
+  
+  .tender-table__apply-button {
+    padding: 6px 12px;
+    background-color: #4caf50; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tender-table__apply-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  .tender-table__download-link {
+    padding: 6px 12px;
+    background-color: #007bff; /* Blue button for download */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tender-table__download-link:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+   
+
+
+
+
+  .portfolio-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    width: 40%;
+    height: 65vh;
+    overflow: auto;
+  }
+  
+  .portfolio-card {
+    width: 450px;
+    height: 150px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+
+  .portfolio-img {
+    width: 40%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .portfolio-info {
+    width: 60%;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .portfolio-info h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 0;
+  }
+  
+  .portfolio-info p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+  }
+  
+  .portfolio-date {
+    font-size: 12px;
+    color: #888;
+    font-weight: bold;
+  }
+  
