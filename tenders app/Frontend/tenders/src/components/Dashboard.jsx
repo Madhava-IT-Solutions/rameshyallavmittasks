@@ -17,9 +17,9 @@ const Dashboard = () => {
 
   return (
     <div className='dashboard'>
-      {role === 'client' && <div> <ClientDashboard/></div>}
-      {role === 'contractor' && <div><ContractorDashboard />  </div>}
-      {role === 'vendor' && <div><VendorDashboard /></div>}
+      {role == 'client' && <div> <ClientDashboard/></div>}
+      {role == 'contractor' && <div><ContractorDashboard />  </div>}
+      {role == 'vendor' && <div><VendorDashboard /></div>}
     </div>
   );
 };
