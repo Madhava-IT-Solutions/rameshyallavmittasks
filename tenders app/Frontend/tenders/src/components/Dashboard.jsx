@@ -1,27 +1,45 @@
-import { jwtDecode } from 'jwt-decode';
-import HomePage from './HomePage';
-import ClientDashboard from './ClientDashboard';
-import ContractorDashboard from './ContractorDashboard';
-import VendorDashboard from './VendorDashboard';
-import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ClientDashboard from "./ClientDashboard";
+import ContractorDashboard from "./ContractorDashboard";
+import VendorDashboard from "./VendorDashboard";
 
 const Dashboard = () => {
-  const token = localStorage.getItem('token');
-  const { role } = jwtDecode(token);
   const navigate = useNavigate();
+  const [role, setRole] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token'); // Remove JWT token from localStorage
-    navigate('/login'); // Redirect to login page
-  };
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const { role } = jwtDecode(token);
+      setRole(role);
+      setLoading(false);
+    } catch (error) {
+      console.error("Invalid token:", error);
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className='dashboard'>
-      {role == 'client' && <div> <ClientDashboard/></div>}
-      {role == 'contractor' && <div><ContractorDashboard />  </div>}
-      {role == 'vendor' && <div><VendorDashboard /></div>}
+    <div className="dashboard">
+      {role === "client" && <ClientDashboard />}
+      {role === "contractor" && <ContractorDashboard />}
+      {role === "vendor" && <VendorDashboard />}
     </div>
   );
 };
 
-export default Dashboard
+export default Dashboard;
