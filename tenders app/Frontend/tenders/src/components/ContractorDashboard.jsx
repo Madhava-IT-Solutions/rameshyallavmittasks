@@ -61,6 +61,7 @@ const ContractorDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [applications, setApplications] = useState([]);
+   const [isOpen, setIsOpen] = useState(false);
   const [contractors, setContractors] = useState([]);
 
   const itemsPerPage = 5;
@@ -158,7 +159,7 @@ const ContractorDashboard = () => {
   const ClientProfile = () => {
     return (
       <>
-        <div className="profile-card">
+        <div className="profile-cards">
           <div className="profile-image">
             <img
               src={userDetails.image}
@@ -221,7 +222,10 @@ const ContractorDashboard = () => {
     <div >
      <nav className="contractor-navbar d-navbar">
         <h2>{role.toUpperCase()} Dashboard</h2>
-        <div className='right-nav'>
+        <button className="menu-toggle" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "✖" : "☰"}
+      </button>
+        <div className={`right-nav ${isOpen ? "active" : ""}`}>
             <ul>
               <li>Home</li>
               <li> <a className="anc" href="#applications">My Applications</a></li>
@@ -229,47 +233,25 @@ const ContractorDashboard = () => {
               <li><a className="anc" href="#contractors">Contractors</a></li>
               <li><a className="anc" href="#bids">My Bids</a></li>
             </ul>
-            <button className='logbutton' onClick={handleLogout} > Logout </button>
+            <button className="logbutton" onClick={() => {
+          setIsOpen(false); // Close menu on logout
+          handleLogout();
+        }}>
+          Logout
+        </button>
         </div>
      </nav>
 
 
      <div className="dashboard-container">
-            {/* Sidebar */}
-            <div className="sidebar">
-                {/* <ul>
-                    <li className="sidebar-item" onClick={() => setActiveSection('profile')}>Profile</li>
-                    <li className="sidebar-item" onClick={() => setActiveSection('tenders')}>Available Tenders</li>
-                    <li className="sidebar-item" onClick={() => setActiveSection('bids')}>My Bids</li>
-                    <li className="sidebar-item" onClick={() => setActiveSection('notifications')}>Notifications</li>
-                    <li className="sidebar-item" onClick={() => setActiveSection('payments')}>Financial Overview</li>
-                </ul> */}
-                <ul>
-                <a href="#profile"><li className="sidebar-item" >Profile</li></a>
-                <a href="#tenders"><li className="sidebar-item" >Available Tenders</li></a>
-                <a href="#bids"><li className="sidebar-item" >My Bids</li></a>
-                <a href="#notifications"><li className="sidebar-item" >Notifications</li></a>
-                <a href="#payments"><li className="sidebar-item">Financial Overview</li></a>
-                </ul>
-            </div>
+           
 
             {/* Main Content */}
             <div  className="main-content">
   
                     <div id="profile"  className="profile height row" >
-                          <div className="portfolio-container">
-                            <h2>My Portfolio</h2>
-                                  {portfolioData.map((project) => (
-                                    <div key={project.id} className="portfolio-card">
-                                      <img src={project.image} alt={project.title} className="portfolio-img" />
-                                      <div className="portfolio-info">
-                                        <h3>{project.title}</h3>
-                                        <p>{project.description}</p>
-                                        <span className="portfolio-date">{project.date}</span>
-                                      </div>
-                                    </div>
-                                  ))}
-                          </div>
+                       
+                          <h1  className="contractorwelcome">Welcome Contractor</h1>
                       <ClientProfile />
                     </div>
 

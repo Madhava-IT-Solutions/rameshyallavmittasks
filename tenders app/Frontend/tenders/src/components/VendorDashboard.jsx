@@ -51,6 +51,7 @@ const VendorDashboard = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [applications, setApplications] = useState([]);
     const [contractors, setContractors] = useState([]);
+    const [isOpen, setIsOpen] = useState(false);
     
     const itemsPerPage = 5;
 
@@ -209,7 +210,10 @@ const VendorDashboard = () => {
     <>
             <nav className="d-navbar">
           <h2>Vendor Dashboard</h2>
-          <div className='right-nav'>
+          <button className="menu-toggle" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "✖" : "☰"}
+      </button>
+          <div className={`right-nav ${isOpen ? "active" : ""}`}>
           <ul>
             <li>Home</li>
             <li><a className="anc" href="#applications">My Applications</a></li>
@@ -221,7 +225,12 @@ const VendorDashboard = () => {
             <li>Orders</li>
 
           </ul>
-          <button className='logbutton' onClick={handleLogout} > Logout </button>
+            <button className="logbutton" onClick={() => {
+          setIsOpen(false); // Close menu on logout
+          handleLogout();
+        }}>
+          Logout
+        </button> 
           </div>
         </nav>
     <div className="vendor-dashboard-page vendor-dashboard-container">
@@ -229,7 +238,7 @@ const VendorDashboard = () => {
 
 
         <div id = "vendor-profile" className="vendor_pr">
-      
+      <h1 className="vendorwelcome">Welcome vendor</h1>
           <div className="vendor_ca">
     
           <ClientProfile />

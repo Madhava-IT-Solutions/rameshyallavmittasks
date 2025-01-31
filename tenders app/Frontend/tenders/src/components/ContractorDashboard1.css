@@ -33,57 +33,17 @@
 .contractor-navbar{
     position: fixed;
     top: 0px;
-    width: 98%;
+    width: 95%;
 
-}
-.sidebar {
-    position: fixed;
-    top:14vh;
-    margin-top: -1px;
-    width: 250px;
-    background-color: #78d2b3ed;
-    color: #005c1a;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    font-weight: 700;
-    height: 100vh;
-}
-
-.sidebar h2 {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar li {
-    padding: 10px;
-    cursor: pointer;
-    width: 100%;
-    transition: 0.5s;
-}
-
-.sidebar li:hover {
-    background-color: #374151;
-    color: #f9f9f9;
-    width: 100%;
-    transition: 0.5s;
-}
-.sidebar li :hover {
-    color: #f9f9f9;
 }
 
 /* Main Content Styles */
 
 
+
 .main-content {
-    margin-left: 300px;
-    flex-grow: 1;
+  
+   
     padding: 20px;
     
     scroll-behavior: smooth;
@@ -152,24 +112,7 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-    }
 
-    .sidebar {
-        width: 100%;
-        padding: 10px;
-    }
-
-    .main-content {
-        padding: 10px;
-    }
-
-    .portfolio-item {
-        width: 100%;
-    }
-}
 
 
 
@@ -294,3 +237,77 @@
     font-weight: bold;
   }
   
+  .profile-cards{
+    width: 25vw;
+    background-color: red;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px;
+ 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80vh;
+    margin-left: 30px;
+  }
+
+  @media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+       
+    }
+    .profile{
+      display: flex;
+      flex-direction: column;
+    
+    }
+
+    .portfolio-item {
+        width: 100%;
+    }
+    .sidebar{
+      display: none;
+    }
+    .portfolio-container{
+      display: none;
+    }
+    .profile-cards{
+      width: 75vw;
+      background-color: red;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+      margin-top: 20px;
+   
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 80vh;
+      margin-left: 30px;
+    }
+    .contractorwelcome{
+      display: block;
+      color: blue;
+      text-align: center;
+      margin-top: -20px;
+    }
+ 
+  
+
+}

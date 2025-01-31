@@ -307,9 +307,64 @@ h2 {
 .my_tenders{
   background-color: #ff0004;
 }
-
+.menu-toggles {
+  display: none; /* Hide on desktop */
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
 
 
 @media(max-width: 768px){
+  .top-body{
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  .logbutton{
+    height: 5vh;
+    margin: 10px;
+    font-size: 15px;
+    width: 30vw;
+  }
+  .menu-toggles {
+    display: block; /* Show menu button */
+  }
+
+  .right-nav {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    width: 100%;
+    background-color: rgba(1, 5, 22, 0.9);
+    display: none;
+    flex-direction: column;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+
+  }
+
+ 
+  .nav-links li {
+    padding: 15px 0;
+  }
+
+  /* Open state */
+  .right-nav.active {
+    display: flex;
+    transform: translateY(0);
+  }
+  .d-navbar ul{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: flex-start;
+    width: 70%;
+    justify-content: space-around;
+    height: 40vh;
+    
+  }
   
 }

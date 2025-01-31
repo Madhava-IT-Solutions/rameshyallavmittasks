@@ -51,6 +51,7 @@ const ClientDashboard = () => {
   const [contractors, setContractors] = useState([]);
   const [displayTenders1, setDisplayTenders] = useState([]);
   const [filterType, setFilterType] = useState("All");
+  const [isOpen, setIsOpen] = useState(false);
   const itemsPerPage = 5;
 
   useEffect(() => {
@@ -289,7 +290,10 @@ const ClientDashboard = () => {
     <>
         <nav className="d-navbar">
             <h2>Client Dashboard</h2>
-            <div className='right-nav'>
+            <button className="menu-toggles" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "✖" : "☰"}
+      </button>
+            <div className={`right-nav ${isOpen ? "active" : ""}`}>
             <ul>
               <li>Home</li>
               <li><a className="n-link" href="#mytenders">My Tenders</a></li>
