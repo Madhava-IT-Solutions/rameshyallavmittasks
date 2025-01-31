@@ -8,6 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [tenders, setTenders] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTenders,setactiveTenders] =useState([]);
@@ -108,17 +109,21 @@ const Login = () => {
            <nav className="navbar">
               <a href='https://ssvconstructions.in/' target='blank'><img src='https://ssvconstructions.in/wp-content/uploads/2024/05/cropped-ssv-final-logo-transparent-png-186x86.png' className='imag' /></a>
                <h1 className="logo headings">Tenders</h1>
-               <ul className="nav-links">
+               <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </button>
+               <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
                   <li><a href="#registrations">Registration</a></li>
                   <li><a href="#tender-details">Tender Details</a></li>
                   <li><a href="#tenders_table">Active Tenders</a></li>
                   <li><a href="#contact">Contact</a></li>
+                  <span className="close-btn" onClick={() => setMenuOpen(false)}>✖</span>
               </ul>
            </nav>
          </header>
          
          <section className="home">
-           <div>
+           <div className='wel'>
              <h1>Welcome to Tenders </h1>
              <p className='welcome-para'>Your gateway to innovative business opportunities and tender solutions.</p>
              <p className='welcome-para'>The one-stop platform for all your tender needs. Whether you are a client, contractor, or vendor, find all solutions tailored to your requirements.</p>
@@ -156,7 +161,7 @@ const Login = () => {
                   <div className="links">
                     <a href="#" className="forgot-password"> Forgot Password?</a>
                     <span> | </span>
-                    <a href="#registrations" className="register">New user? ple Register here</a>
+                    <a href="#registrations" className="register">New user?  Register here</a>
                   </div>
                </form>
            </div>

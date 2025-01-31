@@ -138,3 +138,89 @@
     outline: none;
     border-radius: 9px;
 }
+
+
+@media(max-width: 768px){
+    .comain{
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+    }
+  
+    .coimg{
+   
+        
+        width: 130vw;
+        height: 45vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgb(63, 63, 174);
+     
+   
+    }
+    .cim{
+        align-self: center;
+        width: 95vw;
+    
+        opacity: 1;
+     
+        border-radius: 10px;
+     
+    }
+    .contForm{
+    
+  
+        display: flex;
+        flex-direction: column;
+      
+        width: 130vw;
+        height: 90vh;
+        justify-content: center;
+        padding: -10px;
+       
+      
+    
+    }
+    .contbg{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100vw;
+        height: 90vh;
+        
+        
+    }
+ .cocard1{
+    margin-right: 20px;
+ }
+ .vnp{
+    width: 28vw;
+    height: 4vh;
+    border-radius: 5px;
+    border: 2px solid gray;
+}
+.cont_register{
+    background-color: blue;
+   
+    color: rgb(237, 237, 237);
+    border-radius: 8px;
+    width: 30vw;
+    height: 5vh;
+}
+
+
+.cobg{
+    min-height: 150vh;
+    width: 150vw;
+}
+.colabel{
+   margin-left: 60px;
+}
+.vlabel{
+    font-size: 15px;
+}
+
+}

@@ -97,3 +97,82 @@
     font-weight: bold;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
+
+
+@media (max-width: 768px){
+    .vtitle{
+        display: flex;
+        flex-direction: column;
+        margin: 10px;
+       
+     
+    }
+    .vimg{
+        background-color: rgb(241, 55, 55);
+        
+       
+        width: 90vw;
+        height: 45vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .vim{
+        align-self: center;
+        width: 68vw;
+    
+        opacity: 1;
+     
+        border-radius: 10px;
+     
+    }
+    .vform{
+    
+  
+        display: flex;
+        flex-direction: column;
+      
+        width: 90vw;
+        height: 90vh;
+        justify-content: center;
+       
+      
+    
+    }
+    .vbg{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 82vw;
+        
+        
+    }
+ .vcard1{
+    margin-right: 20px;
+ }
+ .vendorlabel{
+    width: 20vw;
+    height: 4vh;
+    border-radius: 5px;
+    font-size: 10px;
+    border: 2px solid gray;
+}
+.vregister{
+    background-color: blue;
+   
+    color: rgb(237, 237, 237);
+    border-radius: 8px;
+    width: 30vw;
+    height: 5vh;
+}
+
+
+.vendorla{
+    font-size: 10px;
+}
+.colabel{
+    margin-left:10px;
+}
+}

@@ -128,3 +128,77 @@
         border-radius: 10px;
      
     }
+
+
+    @media (max-width: 768px){
+        .ctitle{
+            display: flex;
+            flex-direction: column;
+            margin: 10px;
+           
+         
+        }
+        .client_welcome{
+       
+            background-color: rgb(135, 23, 105);
+            width: 90vw;
+            height: 45vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .client_img{
+            align-self: center;
+            width: 68vw;
+        
+            opacity: 1;
+         
+            border-radius: 10px;
+         
+        }
+        .cform{
+        
+      
+            display: flex;
+            flex-direction: column;
+          
+            width: 90vw;
+            height: 90vh;
+            justify-content: center;
+           
+          
+        
+        }
+        .card{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            align-items: center;
+            width: 82vw;
+            
+            
+        }
+     .client_car{
+        margin-right: 20px;
+     }
+     .inp{
+        width: 35vw;
+        height: 4vh;
+        border-radius: 5px;
+        border: 2px solid gray;
+    }
+    .cb{
+        background-color: blue;
+       
+        color: rgb(237, 237, 237);
+        border-radius: 8px;
+        width: 30vw;
+        height: 5vh;
+    }
+   
+    .cbg{
+width: 130vw;
+
+    }
+    }

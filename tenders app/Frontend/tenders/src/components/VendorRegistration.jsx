@@ -97,22 +97,22 @@ const VendorRegistration = () => {
       <div className="vbg">
         <div className="vcard1">
           <label className="vendorla"  htmlFor="username">Username:</label>
-          <input value={formData.username}    onChange={handleChange} className="vendorlabel" type="text" id="username" name="username" required />
+          <input value={formData.username}    onChange={handleChange} className="vendorlabel" type="text" id="username" name="username"   placeholder="Enter Username.." required />
           <br />
           <br />
 
           <label className="vendorla" htmlFor="firm_name">Name of Firm:</label>
-          <input value={formData.firm_name}   onChange={handleChange} className="vendorlabel" type="text" id="firm_name" name="firm_name" required />
+          <input value={formData.firm_name}   onChange={handleChange} className="vendorlabel" type="text" id="firm_name" name="firm_name"   placeholder="Enter Firm NAme.." required />
           <br />
           <br />
 
           <label className="vendorla" htmlFor="gst_number">GST Number:</label>
-          <input value={formData.gst_number}    onChange={handleChange} className="vendorlabel" type="text" id="gst_number" name="gst_number" required />
+          <input value={formData.gst_number}    onChange={handleChange} className="vendorlabel" type="text" id="gst_number" name="gst_number"   placeholder="Enter gst number.." required />
           <br />
           <br />
 
           <label className="vendorla" htmlFor="email">Email:</label>
-          <input value={formData.email}    onChange={handleChange} className="vendorlabel" type="email" id="email" name="email" required />
+          <input value={formData.email}    onChange={handleChange} className="vendorlabel" type="email" id="email" name="email"   placeholder="Enter email.." required />
           <br />
           <br />
 
@@ -122,13 +122,13 @@ const VendorRegistration = () => {
         <div className="vcard1">
 
         <label className="vendorla" htmlFor="phone">Mobile Number:</label>
-          <input value={formData.phone}   onChange={handleChange} className="vendorlabel" type="tel" id="phone" name="phone" required />
+          <input value={formData.phone}   onChange={handleChange} className="vendorlabel" type="tel" id="phone" name="phone"   placeholder="Enter mobile number.." required />
           <br />
           <br />
 
 
           <label className="vendorla" htmlFor="experience">Years of Experience:</label>
-          <input value={formData.experience}   onChange={handleChange} className="vendorlabel" type="number" id="experience" name="experience" required />
+          <input value={formData.experience}   onChange={handleChange} className="vendorlabel" type="number" id="experience" name="experience"   placeholder="Enter experience.." required />
           <br />
           <br />
 
@@ -170,7 +170,7 @@ const VendorRegistration = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            
+              placeholder="Enter password.."
             required
           />
           <br />
@@ -183,6 +183,7 @@ const VendorRegistration = () => {
             name="confirm_password"
             value={formData.confirm_password}
             onChange={handleChange}
+              placeholder="Enter confirm password.."
             required
           />
                 {error && <p className="error">{error}</p>}

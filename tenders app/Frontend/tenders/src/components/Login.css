@@ -69,7 +69,14 @@
 .explore-btn:hover {
   background: #0056b3;
 }
-
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
 
 
 
@@ -240,7 +247,9 @@ color: #ffdd57;
 }
 
 
-
+.close-btn{
+  display: none;
+}
 
 
 
@@ -320,7 +329,7 @@ flex-direction: row;
 justify-content: space-around;
 align-items: center ;
 background-color: white;
-min-height: 100vh;
+min-height: 150vh;
 background-image: url("https://cdn.pixabay.com/photo/2016/08/05/07/17/laptop-1571702_1280.jpg");
 background-size: cover;
 
@@ -699,7 +708,41 @@ text-align: center;
 @media (max-width: 768px) {
   .login-page {
     flex-direction: column;
+    height: 150vh;
+
   }
+.home{
+  display: flex;
+  flex-direction: column;
+}
+.wel{
+  display: none;
+}
+
+.form-container {
+ height: 55vh;
+ min-width: 80vw;
+
+  margin-top: 30px ;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+ 
+}
+
+.user{
+  min-width: 70vw;
+  margin-left: -10px;
+ 
+}
+
+
+
+
+
 
   .left-panel, .right-panel {
     width: 100%;
@@ -717,4 +760,118 @@ text-align: center;
   .tender-list {
     height: 80px;
   }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 8vh;
+    left: 0;
+    width: 100%;
+    background: #242021;
+    text-align: center;
+    padding: 2rem 0;
+    gap: 1.5rem;
+    color: black;
+
+  }
+
+  /* Show links when menu is open */
+  .nav-links.open {
+    display: flex;
+    
+  }
+
+  /* Menu Toggle Button (Shown only on Mobile) */
+  .menu-toggle {
+    display: block;
+  }
+
+  /* Close Button Inside Menu */
+  .close-btn {
+    position: absolute;
+    top: 150px;
+    right: 40px;
+   
+    font-size: 10px;
+    color: rgb(17, 1, 1);
+    display: block;
+    cursor: pointer;
+    background-color: #8a939c;
+  }
+  .imag{
+    width: 16vw;
+    height: 8vh;
+    }
+    .register{
+      min-width: 30vw;
+      text-align: center;
+      
+    }
+    .forgot-password{
+      min-width: 25vw;
+      text-align: center;
+    }
+.tendersCard3{
+  width: 80vw;
+  min-height:150vh;
+ 
 }
+
+.idea-item1:hover {
+  border-bottom: 5px solid violet;
+  transform: scale(1.2);
+  transition: 0.5s ease-in-out;
+  background-color: rgb(146, 104, 188);
+  
+  
+  }
+  .idea-item1:hover .reg {
+  display: block;  
+  background-color: rgb(183, 200, 32);  
+ 
+  width: 25vw;
+  border-radius: 10px;
+  }
+  
+  
+  .idea-item2:hover {
+  border-bottom: 5px solid violet;
+  transform: scale(1.2);
+  transition: 0.5s ease-in-out;
+  background-color: rgb(143, 110, 46);
+  
+  
+  }
+  .idea-item2:hover .reg {
+  display: block;  
+  background-color: rgb(9, 196, 37); 
+  width: 25vw;
+  border-radius: 10px; 
+  }
+  .idea-item3:hover {
+  border-bottom: 5px solid violet;
+  transform: scale(1.2);
+  transition: 0.5s ease-in-out;
+  background-color: rgb(55, 187, 51);
+  
+  
+  }
+  .idea-item3:hover .reg {
+  display: block;  
+  background-color: rgb(137, 81, 189);  
+  width: 25vw;
+  border-radius: 10px;
+
+  }
+.tender-details{
+  height: 150vh;
+}
+.login-form button {
+  width: 95%;
+  margin-left: -35px;
+}
+   
+}
+
+
+

@@ -82,7 +82,7 @@ const ClientRegistration = () => {
           </div>
           <form className="cform" onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="card">
-              <div>
+              <div className='client_car'>
                 <div className="form-group">
                   <label className="clabel" htmlFor="UserName">Username</label>
                   <input

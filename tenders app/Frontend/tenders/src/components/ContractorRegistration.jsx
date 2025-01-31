@@ -143,19 +143,19 @@ const ContractorRegistration = () => {
             <div className="contbg">
               <div className="cocard1">
                 <label className="vlabel" htmlFor="username">Username:</label>
-                <input value={formData.username}    onChange={handleChange} className="vnp" type="text" id="username" name="username" required />
+                <input value={formData.username}    onChange={handleChange} className="vnp" type="text" id="username" name="username"     placeholder="Enter Username.." required />
                 <br />
                 <br />
                 <label className="vlabel" htmlFor="email">Email:</label>
-                <input value={formData.email}    onChange={handleChange}  className="vnp" type="email" id="email" name="email" required />
+                <input value={formData.email}    onChange={handleChange}  className="vnp" type="email" id="email" name="email"     placeholder="Enter Email.." required />
                 <br />
                 <label className="vlabel" htmlFor="phone">Mobile Number:</label>
-                <input  value={formData.phone}   onChange={handleChange}  className="vnp" type="text" id="phone" name="phone" required />
+                <input  value={formData.phone}   onChange={handleChange}  className="vnp" type="text" id="phone" name="phone"     placeholder="Enter Mobile number.." required />
                 <br />
                 <br />
                   
                 <label className="vlabel" htmlFor="license_number">License Number:</label>
-                <input  value={formData.license_number}   onChange={handleChange}  className="vnp" type="text" id="license_number" name="license_number" required />
+                <input  value={formData.license_number}   onChange={handleChange}  className="vnp" type="text" id="license_number" name="license_number"     placeholder="Enter Liscence Number.." required />
                 <br />
                 <br />
               
@@ -163,7 +163,7 @@ const ContractorRegistration = () => {
               <div className="cocard1">
 
               <label className="vlabel" htmlFor="name_of_firm">Name of Firm:</label>
-                <input value={formData.name_of_firm}   onChange={handleChange} className="vnp" type="text" id="name_of_firm" name="name_of_firm" required />
+                <input value={formData.name_of_firm}   onChange={handleChange} className="vnp" type="text" id="name_of_firm"     placeholder="Enter Name of Firm.." name="name_of_firm" required />
                 <br />
                 <br />
              
@@ -210,7 +210,7 @@ const ContractorRegistration = () => {
                   type="password"
                   id="password"
                   name="password"
-                  
+                      placeholder="Enter Password.."
                   value={formData.password}
                   onChange={handleChange}
                   required
@@ -224,6 +224,7 @@ const ContractorRegistration = () => {
                   name="confirm_password"
                   value={formData.confirm_password}
             onChange={handleChange}
+                placeholder="Enter Confirm Password.."
                   required
                 />
                 {error && <p className="error">{error}</p>}
